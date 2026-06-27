@@ -104,34 +104,31 @@ export default function Footer() {
           <p className="label-eyebrow">Legal</p>
           <ul className="mt-4 space-y-2.5 text-sm">
             <li>
-              <a
-                href="#"
-                onClick={(e) => e.preventDefault()}
+              <Link
+                to="/privacy"
                 data-testid="footer-link-privacy"
                 className="text-white/80 hover:text-white"
               >
                 Privacy Policy
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
-                onClick={(e) => e.preventDefault()}
+              <Link
+                to="/terms"
                 data-testid="footer-link-terms"
                 className="text-white/80 hover:text-white"
               >
                 Terms of Service
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
-                onClick={(e) => e.preventDefault()}
+              <Link
+                to="/dpdp"
                 data-testid="footer-link-dpdp"
                 className="text-white/80 hover:text-white"
               >
                 DPDP Consent
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

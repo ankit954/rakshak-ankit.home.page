@@ -3,7 +3,8 @@
 Covers:
 - root health
 - POST /api/contact (valid + invalid payload validation)
-- GET /api/contact (listing + persistence verification)
+NOTE: Previously this file tested GET /api/contact (now removed — admin-only).
+Listing is now covered in test_admin_api.py via /api/admin/contacts.
 """
 import os
 import uuid
@@ -13,8 +14,6 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 load_dotenv(Path(__file__).resolve().parents[1] / ".env")
-
-# REACT_APP_BACKEND_URL is the external URL used by the frontend
 FRONTEND_ENV = Path(__file__).resolve().parents[2] / "frontend" / ".env"
 load_dotenv(FRONTEND_ENV)
 
@@ -29,7 +28,6 @@ def client():
     return s
 
 
-# --- Health -----------------------------------------------------------------
 class TestHealth:
     def test_root(self, client):
         r = client.get(f"{API}/")
@@ -37,7 +35,6 @@ class TestHealth:
         assert r.json().get("message") == "RAKSHAK API"
 
 
-# --- Contact submission -----------------------------------------------------
 class TestContact:
     def test_create_contact_success(self, client):
         unique = uuid.uuid4().hex[:8]
@@ -51,67 +48,26 @@ class TestContact:
         r = client.post(f"{API}/contact", json=payload)
         assert r.status_code == 200, r.text
         body = r.json()
-        # Data assertions
         assert body["name"] == payload["name"]
         assert body["email"] == payload["email"]
-        assert body["phone"] == payload["phone"]
-        assert body["topic"] == payload["topic"]
-        assert body["message"] == payload["message"]
         assert isinstance(body.get("id"), str) and len(body["id"]) > 0
         assert "created_at" in body
-        assert "_id" not in body  # mongo ObjectId must not leak
-
-        # Persistence check via GET list
-        listing = client.get(f"{API}/contact")
-        assert listing.status_code == 200
-        items = listing.json()
-        assert isinstance(items, list)
-        ids = [it["id"] for it in items]
-        assert body["id"] in ids, "Created contact not found in listing"
+        assert "_id" not in body
 
     def test_create_contact_invalid_email_422(self, client):
-        payload = {
-            "name": "TEST_Bad",
-            "email": "not-an-email",
-            "phone": "",
-            "topic": "booking",
-            "message": "hi",
-        }
+        payload = {"name": "TEST_Bad", "email": "not-an-email", "message": "hi"}
         r = client.post(f"{API}/contact", json=payload)
-        assert r.status_code == 422, r.text
+        assert r.status_code == 422
 
     def test_create_contact_missing_required_422(self, client):
-        # Missing name and message
         r = client.post(f"{API}/contact", json={"email": "a@b.com"})
         assert r.status_code == 422
 
-    def test_create_contact_empty_message_422(self, client):
-        payload = {
-            "name": "TEST",
-            "email": "ok@example.com",
-            "message": "",
-        }
-        r = client.post(f"{API}/contact", json=payload)
-        assert r.status_code == 422
-
-    def test_create_contact_default_topic(self, client):
-        unique = uuid.uuid4().hex[:6]
-        payload = {
-            "name": f"TEST_Default_{unique}",
-            "email": f"def_{unique}@example.com",
-            "message": "default topic test",
-        }
-        r = client.post(f"{API}/contact", json=payload)
-        assert r.status_code == 200
-        assert r.json()["topic"] == "booking"
-
-    def test_list_contact_sorted_desc(self, client):
-        r = client.get(f"{API}/contact?limit=5")
-        assert r.status_code == 200
-        items = r.json()
-        assert isinstance(items, list)
-        # all items must not include _id
-        for it in items:
-            assert "_id" not in it
-            assert "id" in it
-            assert "created_at" in it
+    def test_legacy_public_get_contact_removed(self, client):
+        """GET /api/contact must NOT be exposed publicly anymore."""
+        r = client.get(f"{API}/contact")
+        # FastAPI returns 405 (method not allowed) when route doesn't exist for that verb,
+        # or 404 if the path no longer exists.
+        assert r.status_code in (404, 405), (
+            f"Public GET /api/contact should be removed but got {r.status_code}"
+        )

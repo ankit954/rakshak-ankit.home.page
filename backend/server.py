@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter, HTTPException
+from fastapi import FastAPI, APIRouter, HTTPException, Header, Depends
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -19,9 +19,6 @@ mongo_url = os.environ['MONGO_URL']
 client = AsyncIOMotorClient(mongo_url)
 db = client[os.environ['DB_NAME']]
 
-# Create the main app without a prefix
-app = FastAPI()
-
 # Configure logging early so route handlers can reference `logger`
 logging.basicConfig(
     level=logging.INFO,
@@ -29,11 +26,14 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+# Create the main app
+app = FastAPI()
+
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
 
 
-# Existing models
+# --------- Models ---------
 class StatusCheck(BaseModel):
     model_config = ConfigDict(extra="ignore")
 
@@ -46,7 +46,6 @@ class StatusCheckCreate(BaseModel):
     client_name: str
 
 
-# Contact submission models
 class ContactCreate(BaseModel):
     name: str = Field(min_length=1, max_length=120)
     email: EmailStr
@@ -67,27 +66,56 @@ class ContactSubmission(BaseModel):
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 
+class WaitlistCreate(BaseModel):
+    email: EmailStr
+    city: Optional[str] = Field(default=None, max_length=64)
+    role: str = Field(default="customer", max_length=32)  # customer | guard
+    source: Optional[str] = Field(default=None, max_length=64)  # hero | cta | etc.
+
+
+class WaitlistEntry(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    email: str
+    city: Optional[str] = None
+    role: str = "customer"
+    source: Optional[str] = None
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+
+# --------- Admin token guard ---------
+async def require_admin(x_admin_token: Optional[str] = Header(default=None)):
+    expected = os.environ.get('ADMIN_TOKEN')
+    if not expected:
+        raise HTTPException(status_code=503, detail="Admin disabled (no token configured)")
+    if not x_admin_token or x_admin_token != expected:
+        raise HTTPException(status_code=401, detail="Invalid admin token")
+    return True
+
+
+# --------- Public routes ---------
 @api_router.get("/")
 async def root():
     return {"message": "RAKSHAK API"}
 
 
 @api_router.post("/status", response_model=StatusCheck)
-async def create_status_check(input: StatusCheckCreate):
-    status_obj = StatusCheck(**input.model_dump())
-    doc = status_obj.model_dump()
+async def create_status_check(payload: StatusCheckCreate):
+    obj = StatusCheck(**payload.model_dump())
+    doc = obj.model_dump()
     doc['timestamp'] = doc['timestamp'].isoformat()
     await db.status_checks.insert_one(doc)
-    return status_obj
+    return obj
 
 
 @api_router.get("/status", response_model=List[StatusCheck])
 async def get_status_checks():
-    status_checks = await db.status_checks.find({}, {"_id": 0}).to_list(1000)
-    for check in status_checks:
-        if isinstance(check.get('timestamp'), str):
-            check['timestamp'] = datetime.fromisoformat(check['timestamp'])
-    return status_checks
+    items = await db.status_checks.find({}, {"_id": 0}).to_list(1000)
+    for it in items:
+        if isinstance(it.get('timestamp'), str):
+            it['timestamp'] = datetime.fromisoformat(it['timestamp'])
+    return items
 
 
 @api_router.post("/contact", response_model=ContactSubmission)
@@ -103,8 +131,34 @@ async def create_contact(payload: ContactCreate):
     return submission
 
 
-@api_router.get("/contact", response_model=List[ContactSubmission])
-async def list_contacts(limit: int = 100):
+@api_router.post("/waitlist", response_model=WaitlistEntry)
+async def create_waitlist(payload: WaitlistCreate):
+    # Idempotent on (email, role) — upsert keeps the original created_at
+    entry = WaitlistEntry(**payload.model_dump())
+    existing = await db.waitlist_signups.find_one(
+        {"email": entry.email, "role": entry.role}, {"_id": 0}
+    )
+    if existing:
+        if isinstance(existing.get('created_at'), str):
+            existing['created_at'] = datetime.fromisoformat(existing['created_at'])
+        return WaitlistEntry(**existing)
+    doc = entry.model_dump()
+    doc['created_at'] = doc['created_at'].isoformat()
+    try:
+        await db.waitlist_signups.insert_one(doc)
+    except Exception as exc:
+        logger.error(f"waitlist insert failed: {exc}")
+        raise HTTPException(status_code=500, detail="Failed to save signup")
+    return entry
+
+
+# --------- Admin (token-gated) routes ---------
+@api_router.get(
+    "/admin/contacts",
+    response_model=List[ContactSubmission],
+    dependencies=[Depends(require_admin)],
+)
+async def admin_list_contacts(limit: int = 200):
     items = (
         await db.contact_submissions.find({}, {"_id": 0})
         .sort("created_at", -1)
@@ -116,7 +170,30 @@ async def list_contacts(limit: int = 100):
     return items
 
 
-# Include the router in the main app
+@api_router.get(
+    "/admin/waitlist",
+    response_model=List[WaitlistEntry],
+    dependencies=[Depends(require_admin)],
+)
+async def admin_list_waitlist(limit: int = 500):
+    items = (
+        await db.waitlist_signups.find({}, {"_id": 0})
+        .sort("created_at", -1)
+        .to_list(limit)
+    )
+    for it in items:
+        if isinstance(it.get('created_at'), str):
+            it['created_at'] = datetime.fromisoformat(it['created_at'])
+    return items
+
+
+@api_router.get("/admin/check", dependencies=[Depends(require_admin)])
+async def admin_check():
+    return {"ok": True}
+
+
+# Keep the legacy unauthenticated GET /api/contact alias OFF — admin only now.
+# Mount the router
 app.include_router(api_router)
 
 app.add_middleware(
@@ -126,9 +203,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# Configure logging
-logger = logging.getLogger(__name__)
 
 
 @app.on_event("shutdown")

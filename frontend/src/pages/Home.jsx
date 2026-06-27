@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import Section from "@/components/Section";
 import DownloadButtons from "@/components/DownloadButtons";
+import WaitlistForm from "@/components/WaitlistForm";
 import {
   Accordion,
   AccordionItem,
@@ -269,6 +270,16 @@ export default function Home() {
               <p className="mt-3 text-xs text-[#A0A0A5]">
                 Apps releasing soon · Be the first to know — Coming Soon
               </p>
+              <div className="mt-6">
+                <p className="text-xs uppercase tracking-[0.2em] text-[#D9A93D] mb-2">
+                  Join the early-access list
+                </p>
+                <WaitlistForm
+                  source="hero"
+                  role="customer"
+                  testIdPrefix="hero-waitlist"
+                />
+              </div>
             </div>
 
             <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-white/80">
@@ -613,6 +624,17 @@ export default function Home() {
           </p>
           <div className="mt-9 flex justify-center">
             <DownloadButtons testIdPrefix="cta-download" />
+          </div>
+          <div className="mt-8">
+            <p className="text-xs uppercase tracking-[0.2em] text-[#D9A93D] mb-3">
+              Or — Join the waitlist
+            </p>
+            <WaitlistForm
+              source="final-cta"
+              role="customer"
+              variant="stacked"
+              testIdPrefix="cta-waitlist"
+            />
           </div>
           <p className="mt-6 text-xs text-[#A0A0A5]">
             By using RAKSHAK you agree to our{" "}
