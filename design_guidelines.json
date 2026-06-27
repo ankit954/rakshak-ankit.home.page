@@ -1,0 +1,97 @@
+{
+  "theme": "dark",
+  "archetype": "5 (Luxury)",
+  "colors": {
+    "background": "#0B0B0D",
+    "surface": "#131316",
+    "surface_glass": "rgba(19, 19, 22, 0.6)",
+    "primary_gold": "#D9A93D",
+    "light_gold": "#E8C366",
+    "dark_gold": "#8A6B26",
+    "text_primary": "#FFFFFF",
+    "text_secondary": "#A0A0A5",
+    "border_subtle": "rgba(217, 169, 61, 0.15)",
+    "border_focus": "rgba(217, 169, 61, 0.5)"
+  },
+  "typography": {
+    "heading_font": "Cabinet Grotesk",
+    "body_font": "Satoshi",
+    "h1": "text-5xl sm:text-6xl lg:text-7xl tracking-tighter font-medium text-white",
+    "h2": "text-3xl sm:text-4xl lg:text-5xl tracking-tight font-medium text-white",
+    "h3": "text-xl sm:text-2xl font-medium text-white",
+    "body": "text-base md:text-lg text-[#A0A0A5] leading-relaxed",
+    "label": "text-xs tracking-[0.2em] uppercase text-[#D9A93D]"
+  },
+  "layout": {
+    "spacing_scale": "Generous (p-8, p-12, py-24)",
+    "grid_system": "Bento Grid for 'Use Cases', Asymmetric overlaps for 'How it Works'",
+    "container": "max-w-7xl mx-auto px-6 md:px-12"
+  },
+  "components": {
+    "header": {
+      "style": "Glassmorphism (backdrop-blur-xl bg-[#0B0B0D]/80)",
+      "border": "border-b border-[#D9A93D]/10",
+      "cta": "Solid gold button, black text"
+    },
+    "buttons": {
+      "primary": "bg-[#D9A93D] text-[#0B0B0D] font-medium hover:bg-[#E8C366] transition-colors px-6 py-3",
+      "secondary": "bg-transparent border border-[#D9A93D]/30 text-white hover:border-[#D9A93D] hover:bg-[#D9A93D]/5 transition-colors px-6 py-3"
+    },
+    "cards": {
+      "style": "bg-[#131316] border border-[#D9A93D]/10 hover:border-[#D9A93D]/30 transition-all duration-300 rounded-lg p-8",
+      "shadow": "shadow-[0_8px_32px_rgba(217,169,61,0.05)]"
+    }
+  },
+  "media": {
+    "image_urls": {
+      "hero_background": {
+        "url": "https://images.unsplash.com/photo-1709377195538-5522ed0f9e10?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1Nzl8MHwxfHNlYXJjaHwyfHxhYnN0cmFjdCUyMGRhcmslMjBnb2xkJTIwYmFja2dyb3VuZHxlbnwwfHx8fDE3ODI1NjU3NDJ8MA&ixlib=rb-4.1.0&q=85",
+        "description": "Abstract dark gold curves for hero background overlay"
+      },
+      "hero_person": {
+        "url": "https://images.unsplash.com/photo-1618371690240-e0d46eead4b8?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzMzV8MHwxfHNlYXJjaHwxfHxpbmRpYW4lMjBzZWN1cml0eSUyMHByb2Zlc3Npb25hbHxlbnwwfHx8fDE3ODI1NjU3Mjd8MA&ixlib=rb-4.1.0&q=85",
+        "description": "Man in black suit and sunglasses, ideal for bodyguard representation"
+      },
+      "use_case_business": {
+        "url": "https://images.pexels.com/photos/8425350/pexels-photo-8425350.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "description": "Business professionals with luxury car"
+      },
+      "use_case_events": {
+        "url": "https://images.pexels.com/photos/34585117/pexels-photo-34585117.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "description": "Event security monitoring crowd"
+      },
+      "use_case_transport": {
+        "url": "https://images.unsplash.com/photo-1681167816895-940c56e0d2a5?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzMjV8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjB0cmFuc3BvcnR8ZW58MHx8fHwxNzgyNTY1NzQzfDA&ixlib=rb-4.1.0&q=85",
+        "description": "Black Rolls Royce parked"
+      },
+      "recruitment_hero": {
+        "url": "https://images.unsplash.com/photo-1615482317235-b7e982e63ba0?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzMzV8MHwxfHNlYXJjaHw0fHxpbmRpYW4lMjBzZWN1cml0eSUyMHByb2Zlc3Npb25hbHxlbnwwfHx8fDE3ODI1NjU3Mjd8MA&ixlib=rb-4.1.0&q=85",
+        "description": "Man in uniform for recruitment page"
+      }
+    }
+  },
+  "motion_and_interactions": {
+    "hover_states": "Buttons and links must have contrasting hover colors (e.g., gold to lighter gold). Cards should lift slightly (-translate-y-1) and increase border opacity.",
+    "page_transitions": "Fade in sections on scroll using framer-motion.",
+    "loading": "Subtle gold spinner or pulsing logo."
+  },
+  "accessibility": {
+    "contrast": "Ensure text over images has dark overlays (bg-black/60) to maintain contrast.",
+    "focus": "focus:ring-2 focus:ring-[#D9A93D] focus:outline-none focus:ring-offset-2 focus:ring-offset-[#0B0B0D]",
+    "aria_labels": "All interactive elements must include data-testid attribute in kebab-case format based on role (e.g., data-testid='hero-download-btn')."
+  },
+  "instructions_to_main_agent": [
+    "Build the website as a multi-page React application (or React Router based single app) with pages: Home, Become a Guard, About, Contact.",
+    "Use Cabinet Grotesk for headings and Satoshi for body text. Add Fontshare CDN link in index.html to load these fonts.",
+    "Install and use @phosphor-icons/react for all icons (Duotone weight preferred).",
+    "Install framer-motion for scroll animations and transitions.",
+    "Implement a sticky header with a glassmorphism effect (backdrop-blur-xl bg-[#0B0B0D]/80). Navigation should not be hidden behind a hamburger on desktop.",
+    "Hero section should use 'hero_background' as a background image with heavy dark overlay, and optionally 'hero_person' placed aesthetically.",
+    "App Store / Play Store download CTAs should be solid gold buttons acting as placeholders ('Coming Soon').",
+    "Trust strip should be a subtle grid or flex row below the hero with gold text and icons.",
+    "Use the Bento Grid layout strategy for the 'Use Cases' section. Prefer pure HTML/Tailwind over generic Shadcn sections to achieve a unique premium feel.",
+    "Footer must include the specified links (Privacy Policy, Terms, DPDP consent), serviceable cities (Delhi NCR), and contact email (contactus@therakshak.in).",
+    "All components and interactive elements MUST have data-testid attributes for testing.",
+    "Ensure strict adherence to the premium dark + gold theme (#0B0B0D background, #D9A93D gold)."
+  ]
+}
