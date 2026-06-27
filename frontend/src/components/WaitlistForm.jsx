@@ -33,7 +33,7 @@ export default function WaitlistForm({
   className = "",
 }) {
   const [email, setEmail] = useState("");
-  const [city, setCity] = useState("Delhi");
+  const [city, setCity] = useState("");
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState(false);
 
@@ -94,6 +94,7 @@ export default function WaitlistForm({
         data-testid={`${testIdPrefix}-city`}
         className="rounded-lg px-3 py-3 text-sm bg-[#0B0B0D] sm:w-40"
       >
+        <option value="">Select city</option>
         {CITIES.map((c) => (
           <option key={c} value={c}>
             {c}
