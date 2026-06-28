@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { Menu, X, Download } from "lucide-react";
+import { Menu, X, Download, LogIn } from "lucide-react";
 import Logo from "@/components/Logo";
 
 const NAV = [
@@ -76,6 +76,14 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <Link
+            to="/login"
+            data-testid="header-login-cta"
+            className="hidden sm:inline-flex items-center gap-2 btn-ghost-gold rounded-lg px-4 py-2 text-sm"
+          >
+            <LogIn className="w-4 h-4" strokeWidth={2} />
+            Log in
+          </Link>
           <a
             href="#download"
             onClick={onDownloadClick}
@@ -128,6 +136,13 @@ export default function Header() {
             >
               <Download className="w-4 h-4" /> Download App
             </a>
+            <Link
+              to="/login"
+              data-testid="header-login-cta-mobile"
+              className="mt-1 inline-flex items-center justify-center gap-2 btn-ghost-gold rounded-lg px-4 py-3 text-sm"
+            >
+              <LogIn className="w-4 h-4" /> Log in
+            </Link>
           </div>
         </div>
       )}

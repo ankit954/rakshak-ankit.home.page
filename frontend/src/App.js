@@ -10,6 +10,8 @@ import Privacy from "@/pages/Privacy";
 import Terms from "@/pages/Terms";
 import DPDP from "@/pages/DPDP";
 import Admin from "@/pages/Admin";
+import Login from "@/pages/Login";
+import Book from "@/pages/Book";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
@@ -54,6 +56,8 @@ function App() {
         <Route path="/privacy" element={wrap(Privacy)} />
         <Route path="/terms" element={wrap(Terms)} />
         <Route path="/dpdp" element={wrap(DPDP)} />
+        <Route path="/login" element={wrap(Login)} />
+        <Route path="/book" element={wrap(Book)} />
         <Route
           path="/admin"
           element={
