@@ -9,13 +9,13 @@ import Contact from "@/pages/Contact";
 import Privacy from "@/pages/Privacy";
 import Terms from "@/pages/Terms";
 import DPDP from "@/pages/DPDP";
-import Admin from "@/pages/Admin";
 import Login from "@/pages/Login";
-import Book from "@/pages/Book";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
 import { Toaster } from "sonner";
+
+import AdminApp from "@/admin/AdminApp";
 
 function PublicLayout({ children }) {
   return (
@@ -28,23 +28,28 @@ function PublicLayout({ children }) {
   );
 }
 
-function BareLayout({ children }) {
-  // Admin: no header/footer
-  return (
-    <div className="App" data-testid="app-root-bare">
-      {children}
-      <Toaster position="bottom-center" theme="dark" />
-    </div>
-  );
-}
-
 const wrap = (Page) => (
   <PublicLayout>
     <Page />
   </PublicLayout>
 );
 
+function isAdminHost() {
+  if (typeof window === "undefined") return false;
+  const h = window.location.hostname || "";
+  // Production / staging admin subdomains
+  if (h.startsWith("admin.")) return true;
+  // Preview testing: ?admin=1 query string or /admin path-prefix opens the admin shell
+  const sp = new URLSearchParams(window.location.search);
+  if (sp.get("admin") === "1") return true;
+  if (window.location.pathname.startsWith("/admin")) return true;
+  return false;
+}
+
 function App() {
+  if (isAdminHost()) {
+    return <AdminApp />;
+  }
   return (
     <BrowserRouter>
       <ScrollToTop />
@@ -57,15 +62,8 @@ function App() {
         <Route path="/terms" element={wrap(Terms)} />
         <Route path="/dpdp" element={wrap(DPDP)} />
         <Route path="/login" element={wrap(Login)} />
-        <Route path="/book" element={wrap(Book)} />
-        <Route
-          path="/admin"
-          element={
-            <BareLayout>
-              <Admin />
-            </BareLayout>
-          }
-        />
+        {/* /book route kept hidden — no longer linked from public site */}
+        <Route path="*" element={wrap(Home)} />
       </Routes>
     </BrowserRouter>
   );

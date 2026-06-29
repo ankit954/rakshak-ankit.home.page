@@ -1,64 +1,76 @@
-# RAKSHAK Public Marketing Website — PRD
+# RAKSHAK — Architecture & PRD
 
-## Original Problem Statement
-Build a public marketing website for RAKSHAK (separate from the app login).
-NO login/OTP on these pages. Premium dark + gold theme (bg #0B0B0D, gold #D9A93D).
-Mobile-responsive, SEO-friendly. Wired into the existing FastAPI + MongoDB project.
+## Layout (single React build, two surfaces)
+- Public marketing site — served from the root domain (e.g. `therakshak.in`,
+  `rakshak-landing.preview.emergentagent.com`).
+- Admin console — served from `admin.therakshak.in`. Same React build
+  detects `window.location.hostname.startsWith('admin.')` and renders the
+  admin shell instead of the marketing site. In preview, append `?admin=1`
+  (or visit any `/admin*` path) to load the admin shell.
 
-## User Personas
-1. **Customer** — books a verified bodyguard.
-2. **Aspiring Guard** — Ex-Army / Ex-Police / PSARA-trained — wants steady gigs.
-3. **Press / Enterprise** — researches brand & company.
-4. **Admin** — RAKSHAK ops, reviews leads.
+## Backend (FastAPI + motor + MongoDB Atlas)
+- Public endpoints under `/api/*` (status, contact, waitlist, health).
+- Admin auth under `/api/admin/auth/*`:
+  - `POST /login` (email + password → JWT + cookie)
+  - `GET  /me`
+  - `POST /logout`
+- Admin module endpoints under `/api/admin/<module>`:
+  - `GET  /api/admin/<module>` (paginated, search, status filter)
+  - `GET  /api/admin/<module>/export.csv`
+  - `GET  /api/admin/<module>/{id}`
+  - `PATCH /api/admin/<module>/{id}`
+  - `POST  /api/admin/<module>/{id}/status`
+  - `GET  /api/admin/dashboard/kpis`
+- Modules wired: users, guards, bookings, orders, transactions, categories,
+  cities, pricing, coupons, tickets, kyc, sos, payouts, settlements,
+  settings, audit_log, contacts (marketing), waitlist (marketing).
+- Auth library: `auth.py` (bcrypt + PyJWT). Idempotent admin seed on
+  startup as a fire-and-forget task — Atlas reachability does NOT block
+  API readiness.
+- Audit trail: every PATCH / status change writes to `audit_log` with
+  `before`/`after`/`actor`.
+- Legacy `X-Admin-Token` header still honoured for one release to avoid
+  breaking older clients.
 
-## Architecture
-- React (CRA + craco) + React Router v7 — multi-page SPA.
-- FastAPI backend at `/api` with MongoDB.
-- Fonts: Cabinet Grotesk + Satoshi via Fontshare.
-- Icons: lucide-react.
-- Static logo asset at `/app/frontend/public/rakshak-logo.png`.
-
-## Pages
-- `/` Home — hero, trust marquee, How-It-Works (4), Trust pillars (6),
-  Use Cases bento (6), Categories (4), Reviews, FAQ, final CTA + waitlist,
-  recruit cross-link.
-- `/become-a-guard` — recruitment hero, eligibility, docs, benefits (6),
-  join steps (5), standards, final CTA.
-- `/about` — mission/vision/operate, timeline, values (4), presence, CTA.
-- `/contact` — submission form → POST `/api/contact`, sidebar info.
-- `/privacy`, `/terms`, `/dpdp` — DPDP-Act 2023-aligned legal pages.
-- `/admin` — token-gated admin console (contacts + waitlist tabs).
-
-## Backend endpoints
-- Public:
-  - `GET /api/`
-  - `POST /api/status`, `GET /api/status`
-  - `POST /api/contact` (Pydantic + EmailStr validated; persists to `contact_submissions`)
-  - `POST /api/waitlist` (idempotent on email+role; persists to `waitlist_signups`)
-- Admin (require `X-Admin-Token` header matching `ADMIN_TOKEN` env):
-  - `GET /api/admin/check`
-  - `GET /api/admin/contacts`
-  - `GET /api/admin/waitlist`
+## Frontend (React + react-router 7)
+- Public marketing (Home, Become a Guard, About, Contact, Privacy, Terms,
+  DPDP, Login).
+- Public `/login` → "RAKSHAK runs on the mobile app" → Play/App Store CTAs
+  + waitlist. No customer/guard web auth.
+- Admin SPA (`/app/frontend/src/admin/*`):
+  - `AdminApp` — separate BrowserRouter with `AdminAuthProvider`.
+  - `AdminAuthContext` — token in `localStorage.rk_admin_jwt` + httpOnly
+    cookie; axios interceptor for `Authorization: Bearer …` and 401 redirect.
+  - `AdminLayout` — grouped sidebar (Overview / Operations / People /
+    Finance / Catalogue / Marketing / System), header with profile menu.
+  - `Dashboard` — KPI cards across all 17 modules + revenue snapshot.
+  - `ModulePage` — generic data table with search, status filter,
+    pagination, CSV export, JSON detail drawer. Wired to all module slugs.
 
 ## Env vars
-- Backend: `MONGO_URL`, `DB_NAME`, `CORS_ORIGINS`, `ADMIN_TOKEN`.
-- Frontend: `REACT_APP_BACKEND_URL`, `REACT_APP_PLAY_STORE_URL` (optional),
-  `REACT_APP_APP_STORE_URL` (optional). When the latter two are non-empty,
-  `DownloadButtons` switches from "Coming Soon" placeholders to real
-  outbound store links automatically.
+### Backend (`backend/.env`)
+- `MONGO_URL`, `DB_NAME` — shared with mobile app (`rakshak`).
+- `CORS_ORIGINS` — explicit list including therakshak.in and admin
+  subdomain + preview host. Wildcard regex covers all subdomains.
+- `JWT_SECRET` — HS256 signing key (rotate to invalidate all sessions).
+- `ADMIN_EMAIL`, `ADMIN_PASSWORD` — seeded into `admin_users` on startup.
+- `ADMIN_TOKEN` — legacy static-secret fallback.
 
-## What's Implemented (Dec 2025)
-- All public pages, sticky header, footer, ScrollToTop, SEO meta+OG tags.
-- Real RAKSHAK logo image swapped in (replaces SVG wordmark).
-- Waitlist email-capture on hero + final CTA, stored in MongoDB.
-- Token-gated admin console with contacts + waitlist tables + search.
-- Privacy / Terms / DPDP content tailored to India DPDP Act 2023.
-- Coverage of data-testid attributes for testing.
+### Frontend (`frontend/.env`)
+- `REACT_APP_BACKEND_URL` — single backend for both surfaces.
+- `REACT_APP_PLAY_STORE_URL`, `REACT_APP_APP_STORE_URL` — empty → "Coming
+  Soon" placeholders; populate to enable real outbound store links.
 
-## Backlog / Next Action Items
-- P1: Live Play Store / App Store URLs — drop into `REACT_APP_PLAY_STORE_URL`
-  & `REACT_APP_APP_STORE_URL`. Restart frontend.
-- P2: CSV export from admin console.
-- P2: Lead notification email on new contact / waitlist (e.g. Resend / SES).
-- P2: Cookie / consent banner (DPDP).
-- P2: Structured data (Organization JSON-LD) on Home for better SEO.
+## Known issue (handoff)
+- Atlas Network Access does not include the preview environment egress IP.
+  Every `/api/admin/*` call returns 503/401 cleanly until that's fixed.
+  Recommended: whitelist `0.0.0.0/0` in Atlas (the egress IP rotates).
+
+## Backlog
+- P1: Module-specific actions (Approve KYC, Mark SOS resolved, Refund
+  booking, Mark payout paid) — current build is read-only + generic patch.
+  Add purpose-built action buttons once the real schemas are inspected.
+- P1: 2FA on admin login (TOTP).
+- P2: Excel export (XLSX) in addition to CSV.
+- P2: Real-time SOS push via WebSocket or polling.
+- P2: Reports module with charts (Recharts) once aggregations are decided.

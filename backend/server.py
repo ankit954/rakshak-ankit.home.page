@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter, HTTPException, Header, Depends
+from fastapi import FastAPI, APIRouter, HTTPException, Header, Depends, Request, Response
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -14,29 +14,46 @@ from datetime import datetime, timezone
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
-# MongoDB connection
-mongo_url = os.environ['MONGO_URL']
-client = AsyncIOMotorClient(mongo_url)
-db = client[os.environ['DB_NAME']]
-
-# Configure logging early so route handlers can reference `logger`
+# Configure logging EARLY so all modules can log
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
 
-# Create the main app
-app = FastAPI()
+# MongoDB connection
+mongo_url = os.environ['MONGO_URL']
+client = AsyncIOMotorClient(mongo_url)
+db = client[os.environ['DB_NAME']]
 
-# Create a router with the /api prefix
+
+def get_db():
+    return db
+
+
+# Local imports (after env + db are ready)
+from auth import (  # noqa: E402
+    AdminLoginIn,
+    AdminLoginOut,
+    AdminPublic,
+    COOKIE_NAME,
+    login_endpoint,
+    logout_endpoint,
+    make_require_admin,
+    seed_admin,
+)
+from admin_modules import make_router as make_admin_modules_router  # noqa: E402
+
+require_admin = make_require_admin(get_db)
+
+app = FastAPI(title="RAKSHAK API")
+
+# ---------------- Public API ----------------
 api_router = APIRouter(prefix="/api")
 
 
-# --------- Models ---------
 class StatusCheck(BaseModel):
     model_config = ConfigDict(extra="ignore")
-
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     client_name: str
     timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
@@ -56,7 +73,6 @@ class ContactCreate(BaseModel):
 
 class ContactSubmission(BaseModel):
     model_config = ConfigDict(extra="ignore")
-
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     name: str
     email: str
@@ -69,13 +85,12 @@ class ContactSubmission(BaseModel):
 class WaitlistCreate(BaseModel):
     email: EmailStr
     city: Optional[str] = Field(default=None, max_length=64)
-    role: str = Field(default="customer", max_length=32)  # customer | guard
-    source: Optional[str] = Field(default=None, max_length=64)  # hero | cta | etc.
+    role: str = Field(default="customer", max_length=32)
+    source: Optional[str] = Field(default=None, max_length=64)
 
 
 class WaitlistEntry(BaseModel):
     model_config = ConfigDict(extra="ignore")
-
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     email: str
     city: Optional[str] = None
@@ -84,20 +99,18 @@ class WaitlistEntry(BaseModel):
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 
-# --------- Admin token guard ---------
-async def require_admin(x_admin_token: Optional[str] = Header(default=None)):
-    expected = os.environ.get('ADMIN_TOKEN')
-    if not expected:
-        raise HTTPException(status_code=503, detail="Admin disabled (no token configured)")
-    if not x_admin_token or x_admin_token != expected:
-        raise HTTPException(status_code=401, detail="Invalid admin token")
-    return True
-
-
-# --------- Public routes ---------
 @api_router.get("/")
 async def root():
     return {"message": "RAKSHAK API"}
+
+
+@api_router.get("/health")
+async def health():
+    try:
+        await db.command("ping")
+        return {"ok": True, "db": "connected"}
+    except Exception as exc:
+        return {"ok": False, "db": "unreachable", "error": type(exc).__name__}
 
 
 @api_router.post("/status", response_model=StatusCheck)
@@ -126,18 +139,21 @@ async def create_contact(payload: ContactCreate):
     try:
         await db.contact_submissions.insert_one(doc)
     except Exception as exc:
-        logger.error(f"contact insert failed: {exc}")
+        logger.error("contact insert failed: %s", exc)
         raise HTTPException(status_code=500, detail="Failed to save submission")
     return submission
 
 
 @api_router.post("/waitlist", response_model=WaitlistEntry)
 async def create_waitlist(payload: WaitlistCreate):
-    # Idempotent on (email, role) — upsert keeps the original created_at
     entry = WaitlistEntry(**payload.model_dump())
-    existing = await db.waitlist_signups.find_one(
-        {"email": entry.email, "role": entry.role}, {"_id": 0}
-    )
+    try:
+        existing = await db.waitlist_signups.find_one(
+            {"email": entry.email, "role": entry.role}, {"_id": 0}
+        )
+    except Exception as exc:
+        logger.error("waitlist read failed: %s", exc)
+        raise HTTPException(status_code=503, detail="Database temporarily unreachable.")
     if existing:
         if isinstance(existing.get('created_at'), str):
             existing['created_at'] = datetime.fromisoformat(existing['created_at'])
@@ -147,62 +163,65 @@ async def create_waitlist(payload: WaitlistCreate):
     try:
         await db.waitlist_signups.insert_one(doc)
     except Exception as exc:
-        logger.error(f"waitlist insert failed: {exc}")
+        logger.error("waitlist insert failed: %s", exc)
         raise HTTPException(status_code=500, detail="Failed to save signup")
     return entry
 
 
-# --------- Admin (token-gated) routes ---------
-@api_router.get(
-    "/admin/contacts",
-    response_model=List[ContactSubmission],
-    dependencies=[Depends(require_admin)],
-)
-async def admin_list_contacts(limit: int = 200):
-    items = (
-        await db.contact_submissions.find({}, {"_id": 0})
-        .sort("created_at", -1)
-        .to_list(limit)
-    )
-    for it in items:
-        if isinstance(it.get('created_at'), str):
-            it['created_at'] = datetime.fromisoformat(it['created_at'])
-    return items
+# ---------------- Admin auth ----------------
+admin_auth_router = APIRouter(prefix="/api/admin/auth", tags=["admin-auth"])
 
 
-@api_router.get(
-    "/admin/waitlist",
-    response_model=List[WaitlistEntry],
-    dependencies=[Depends(require_admin)],
-)
-async def admin_list_waitlist(limit: int = 500):
-    items = (
-        await db.waitlist_signups.find({}, {"_id": 0})
-        .sort("created_at", -1)
-        .to_list(limit)
-    )
-    for it in items:
-        if isinstance(it.get('created_at'), str):
-            it['created_at'] = datetime.fromisoformat(it['created_at'])
-    return items
+@admin_auth_router.post("/login", response_model=AdminLoginOut)
+async def admin_login(payload: AdminLoginIn, request: Request, response: Response):
+    return await login_endpoint(db, payload, request, response)
 
 
-@api_router.get("/admin/check", dependencies=[Depends(require_admin)])
-async def admin_check():
-    return {"ok": True}
+@admin_auth_router.post("/logout")
+async def admin_logout(response: Response):
+    return await logout_endpoint(response)
 
 
-# Keep the legacy unauthenticated GET /api/contact alias OFF — admin only now.
-# Mount the router
+@admin_auth_router.get("/me", response_model=AdminPublic)
+async def admin_me(admin: dict = Depends(require_admin)):
+    return AdminPublic(**admin)
+
+
+# ---------------- Mount everything ----------------
 app.include_router(api_router)
+app.include_router(admin_auth_router)
+app.include_router(make_admin_modules_router(get_db, require_admin))
 
+
+# ---------------- CORS ----------------
+origins_raw = os.environ.get('CORS_ORIGINS', '*')
+allow_origins = [o.strip() for o in origins_raw.split(',') if o.strip()]
+allow_credentials = True
+if allow_origins == ['*']:
+    # browsers reject credentials + wildcard; downgrade gracefully
+    allow_credentials = False
 app.add_middleware(
     CORSMiddleware,
-    allow_credentials=True,
-    allow_origins=os.environ.get('CORS_ORIGINS', '*').split(','),
+    allow_origins=allow_origins,
+    allow_credentials=allow_credentials,
     allow_methods=["*"],
     allow_headers=["*"],
+    allow_origin_regex=r"https://.*\.therakshak\.in|https://.*\.preview\.emergentagent\.com|https://.*\.emergent\.host",
 )
+
+
+@app.on_event("startup")
+async def on_startup():
+    # Run admin seeding in the background so Atlas reachability does NOT
+    # block API readiness. Health/login endpoints will surface the DB
+    # status when called.
+    import asyncio
+    async def _bg():
+        try:
+            await seed_admin(db)
+        except Exception as exc:
+            logger.warning("background seed failed: %s", exc)
+    asyncio.create_task(_bg())
 
 
 @app.on_event("shutdown")
