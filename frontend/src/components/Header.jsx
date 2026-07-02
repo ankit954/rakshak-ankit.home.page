@@ -10,6 +10,10 @@ const NAV = [
   { to: "/contact", label: "Contact", testId: "nav-contact" },
 ];
 
+const APP_LOGIN_URL =
+  process.env.REACT_APP_APP_LOGIN_URL ||
+  "https://app.emergent.sh/share-preview?app=exp%3A%2F%2Frakshak-protect-2.preview.emergentagent.com";
+
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -76,14 +80,16 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Link
-            to="/login"
+          <a
+            href={APP_LOGIN_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             data-testid="header-login-cta"
             className="hidden sm:inline-flex items-center gap-2 btn-ghost-gold rounded-lg px-4 py-2 text-sm"
           >
             <LogIn className="w-4 h-4" strokeWidth={2} />
             Log in
-          </Link>
+          </a>
           <a
             href="#download"
             onClick={onDownloadClick}
@@ -136,13 +142,15 @@ export default function Header() {
             >
               <Download className="w-4 h-4" /> Download App
             </a>
-            <Link
-              to="/login"
+            <a
+              href={APP_LOGIN_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               data-testid="header-login-cta-mobile"
               className="mt-1 inline-flex items-center justify-center gap-2 btn-ghost-gold rounded-lg px-4 py-3 text-sm"
             >
               <LogIn className="w-4 h-4" /> Log in
-            </Link>
+            </a>
           </div>
         </div>
       )}
