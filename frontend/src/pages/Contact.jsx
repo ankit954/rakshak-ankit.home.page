@@ -50,7 +50,7 @@ export default function Contact() {
     setSubmitting(true);
     try {
       await axios.post(`${API}/contact`, form);
-      toast.success("Message received — we&rsquo;ll respond within 24 hours.");
+      toast.success("Message received — we'll respond within 24 hours.");
       setForm({
         name: "",
         email: "",

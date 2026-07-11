@@ -154,7 +154,7 @@ export default function Pricing() {
       </Section>
 
       {/* NIGHT + GST + WHAT'S INCLUDED */}
-      <Section testId="pricing-notes" eyebrow="What&rsquo;s inside the price" title="What you pay for, and what you don&rsquo;t">
+      <Section testId="pricing-notes" eyebrow="What's inside the price" title="What you pay for, and what you don't">
         <div className="grid md:grid-cols-3 gap-5">
           {[
             {
