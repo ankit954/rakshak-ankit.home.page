@@ -1,85 +1,107 @@
 import React from "react";
 import LegalPage from "@/components/LegalPage";
-
-const UPDATED = "December 2025";
+import { COMPANY, formatFullAddress } from "@/config/company";
 
 const sections = [
   {
     title: "1. Who we are",
     body: [
-      "RAKSHAK is operated by RAKSHAK Technologies Pvt. Ltd. (\u201cRAKSHAK\u201d, \u201cwe\u201d, \u201cus\u201d, \u201cour\u201d), an Indian company offering an on-demand platform that connects customers with police-verified, trained personal-security professionals (\u201cGuards\u201d) primarily across Delhi NCR.",
-      "This Privacy Policy explains what personal data we collect, why we collect it, how we use it, with whom we share it, and your rights under the Digital Personal Data Protection Act, 2023 (\u201cDPDP Act\u201d). It applies to our website, mobile apps and related services (collectively, the \u201cServices\u201d).",
+      `${COMPANY.legalName} (“RAKSHAK”, “we”, “us”, “our”) is the operator of the RAKSHAK on-demand personal-security platform. Our registered office is at ${formatFullAddress()}.`,
+      `This Privacy Policy explains what personal data we collect, why, how it is stored and protected, whom we share it with and your rights under the Digital Personal Data Protection Act, 2023 (“DPDP Act”). It applies to our website ${COMPANY.site}, the RAKSHAK mobile applications and all related services (together, the “Services”).`,
     ],
   },
   {
     title: "2. Personal data we collect",
     body: [
-      "Identity & contact data: name, mobile number, email address, residential or service address.",
-      "KYC & verification data (Guards): Aadhaar reference number, police-verification certificate, PSARA certificate, photographs and service records.",
-      "Booking & usage data: services booked, dates/times, pricing, ratings, feedback, support tickets.",
-      "Location & device data: real-time geolocation during an active booking, IP address, device identifiers, app version, crash logs and analytics events.",
-      "Payment data: limited transaction metadata. Card/UPI credentials are handled by RBI-authorised payment partners, not stored by RAKSHAK.",
+      "Identity & contact data — full name, mobile number, email address, home/work/booking address, and profile photograph.",
+      "Booking data — services booked, dates, times, locations, ratings, feedback, chat messages with support and communications with the assigned guard through in-app relayed channels.",
+      "Location data — real-time geolocation during an active booking (customer and guard), and the trip-link metadata you may share with family or friends.",
+      "Guard KYC data — where you enrol as a guard: Aadhaar reference number (the last four digits are shown in the app; the full number is masked in our systems), a police-verification certificate (PVC), PSARA certification (if any), service / discharge records, and bank details required to receive payouts.",
+      "Payment data — the amount, method, currency and status of every payment. Actual card numbers, UPI PINs, CVVs and net-banking credentials are handled directly by RBI-authorised payment gateway partners and are never stored on RAKSHAK servers.",
+      "Device & usage data — device model, operating system, app version, IP address, crash logs, and interaction analytics required for security, fraud detection and product improvement.",
     ],
   },
   {
-    title: "3. Purposes & legal basis",
+    title: "3. Purposes of processing",
     body: [
-      "We process your data to (a) provide and operate the Services, (b) verify Guards and meet PSARA and police-verification obligations, (c) match bookings, enable live-tracking and SOS, (d) process payouts and payments, (e) comply with applicable law and respond to lawful requests, and (f) improve safety, quality and security of the platform.",
-      "Our lawful bases under the DPDP Act are your consent (which you can withdraw at any time), performance of a contract with you, compliance with legal obligations, and legitimate uses such as fraud prevention and ensuring information security.",
+      "(a) provide, personalise and operate the Services (booking, matching, dispatch, live tracking, SOS, payouts);",
+      "(b) verify Guards under Aadhaar KYC and police-verification obligations, and to satisfy applicable PSARA and other regulatory requirements;",
+      "(c) process payments, GST invoicing, refunds and payouts;",
+      "(d) provide customer support and resolve disputes;",
+      "(e) detect, prevent and investigate fraud, abuse, safety incidents and platform misuse;",
+      "(f) communicate with you about transactions, service updates, and — only with your explicit opt-in — marketing;",
+      "(g) comply with applicable Indian laws and respond to lawful requests from courts and authorities.",
     ],
   },
   {
-    title: "4. Sharing of data",
+    title: "4. Legal basis under the DPDP Act",
+    body: `We process your personal data on the basis of your explicit, free, specific, informed, unconditional and unambiguous CONSENT, recorded through a clear affirmative action in the app or website. We also rely on statutory legitimate uses under the DPDP Act, including performance of the booking contract, compliance with legal obligations and prevention of fraud or safety threats.`,
+  },
+  {
+    title: "5. How your data is stored & protected",
     body: [
-      "Guards & customers see only the minimum data needed to complete a booking (e.g. first name, masked phone, location).",
-      "Verified service partners (payment processors, KYC providers, cloud, mapping, analytics) process data on our behalf under written contracts.",
-      "Law-enforcement agencies and regulators, where disclosure is required by law or to investigate fraud, threats to life or platform abuse.",
-      "We do not sell your personal data.",
+      "Storage: personal data is stored primarily on servers physically located in India. Backups follow the same jurisdictional rule.",
+      "Encryption: all data in transit is encrypted with TLS 1.2+ / HTTPS. Sensitive fields at rest (including KYC references and access tokens) are encrypted at the storage layer.",
+      "Access controls: engineering / operations access is on a least-privilege basis; every read and write on production databases is audit-logged.",
+      "Payments: card / UPI / net-banking data is never touched by RAKSHAK — the payment gateway partner’s PCI-DSS environment holds the tokenised credentials.",
     ],
   },
   {
-    title: "5. Cross-border transfers",
-    body: "Your data is primarily stored on servers located in India. Where we use service providers outside India, we transfer data only to jurisdictions permitted by the Central Government under the DPDP Act, and under appropriate safeguards.",
+    title: "6. Sharing with third parties",
+    body: [
+      "Guards & customers — the minimum data required to complete a booking (first name, masked phone, live location during the shift).",
+      "Payment gateway partners — e.g. BillDesk / Razorpay and their acquiring banks — for the sole purpose of processing your payment and, where applicable, initiating refunds.",
+      "SMS / OTP providers — Indian licensed telecom / SMS aggregators for transactional OTPs and booking notifications.",
+      "Maps & geolocation providers — for live tracking, address search and reverse-geocoding.",
+      "KYC providers — Aadhaar-based verification agencies contracted under Indian law.",
+      "Law-enforcement agencies and regulators — where disclosure is required by law or to protect life, safety or platform integrity.",
+      "We do NOT sell your personal data to third parties for advertising.",
+    ],
   },
   {
-    title: "6. Retention",
+    title: "7. Your rights as a Data Principal",
+    body: [
+      "Access — request a copy of the personal data we hold about you.",
+      "Correction / completion / updation — of any inaccurate or incomplete personal data.",
+      "Erasure — of personal data that is no longer necessary for the purpose for which it was collected, subject to legal-retention requirements.",
+      "Withdrawal of consent — at any time, from in-app settings or by writing to us. Withdrawal does not affect the lawfulness of processing prior to withdrawal, and may limit our ability to provide certain Services.",
+      "Grievance redressal — see section 11.",
+      "Nomination — you may nominate another individual to exercise the above rights on your behalf in the event of your death or incapacity.",
+      "To exercise any of these rights, email " +
+        COMPANY.supportEmail +
+        " from the email address registered with your account, with the subject line “DPDP Request — <type of request>”. We acknowledge within 48 hours and respond substantively within 15 days.",
+    ],
+  },
+  {
+    title: "8. Data retention",
     body: [
       "Account data: retained while your account is active and for up to 36 months after deletion, to satisfy legal, accounting and dispute-resolution requirements.",
-      "Booking, KYC and payment records: retained for the period mandated by Indian law (typically 7\u20138 years).",
-      "Anonymised analytics may be retained indefinitely.",
+      "Booking, KYC, payment and invoice records: retained for the period mandated by Indian tax and record-keeping law (typically 7–8 years).",
+      "Anonymised / aggregated statistics may be retained indefinitely.",
     ],
   },
   {
-    title: "7. Your rights",
+    title: "9. Cookies & similar technologies",
+    body: `Our website uses first-party functional cookies for session management and preference remembering. We do not set third-party advertising cookies. Where analytics cookies are used, they are configured to strip personal identifiers before data leaves your browser. You can block cookies in your browser settings, though this may impair site functionality.`,
+  },
+  {
+    title: "10. Children",
+    body: `The Services are intended for individuals aged 18 and above. We do not knowingly collect personal data from anyone below 18. If you believe a minor has provided us data, please contact us for immediate deletion.`,
+  },
+  {
+    title: "11. Grievance Officer",
     body: [
-      "Right to access, correct or update your personal data.",
-      "Right to erasure of personal data that is no longer necessary for the purposes for which it was collected.",
-      "Right to grievance redressal \u2014 contact our Grievance Officer (below).",
-      "Right to nominate another person to exercise your rights in the event of your death or incapacity.",
-      "Right to withdraw consent at any time; this will not affect the lawfulness of processing prior to withdrawal.",
+      `In accordance with the DPDP Act and the Information Technology Act, 2000, the contact details of our Grievance Officer are:`,
+      `${COMPANY.grievanceOfficer.name}, ${COMPANY.legalName}`,
+      `Email: ${COMPANY.grievanceOfficer.email}`,
+      `Address: ${formatFullAddress()}`,
+      `Business hours: ${COMPANY.supportHours}`,
+      `We acknowledge complaints within 48 hours and endeavour to resolve them within 15 days.`,
     ],
   },
   {
-    title: "8. Security",
-    body: "We use technical and organisational safeguards \u2014 encrypted transit (TLS), least-privilege access, audit logging and KYC-grade identity binding \u2014 to protect personal data. No system is perfectly secure, and we cannot guarantee absolute security.",
-  },
-  {
-    title: "9. Children",
-    body: "Our Services are intended for users 18 and over. We do not knowingly collect personal data from anyone under 18.",
-  },
-  {
-    title: "10. Grievance Officer",
-    body: [
-      "In accordance with the DPDP Act and the Information Technology Act, 2000, the contact details of our Grievance Officer are:",
-      "Name: Grievance Officer, RAKSHAK Technologies Pvt. Ltd.",
-      "Email: contactus@therakshak.in",
-      "Address: Delhi NCR, India",
-      "We will acknowledge complaints within 48 hours and resolve them within 15 days.",
-    ],
-  },
-  {
-    title: "11. Updates",
-    body: "We may update this Policy from time to time. Material changes will be notified in-app, by email, or on this page \u2014 the \u201cLast updated\u201d date will reflect the most recent revision.",
+    title: "12. Changes to this Policy",
+    body: `We may update this Policy from time to time. Material changes will be notified in-app, by email and on this page. The “Last updated” date at the top reflects the most recent revision.`,
   },
 ];
 
@@ -89,7 +111,7 @@ export default function Privacy() {
       testId="privacy-page"
       eyebrow="Legal"
       title="Privacy Policy"
-      updated={UPDATED}
+      updated={COMPANY.policiesUpdated}
       sections={sections}
     />
   );

@@ -1,9 +1,33 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Mail, MapPin, Instagram, Twitter, Linkedin } from "lucide-react";
+import { Mail, MapPin, Phone, Instagram, Twitter, Linkedin } from "lucide-react";
 import Logo from "@/components/Logo";
+import { COMPANY, formatFullAddress } from "@/config/company";
 
-const cities = ["Delhi", "Gurugram", "Noida", "Ghaziabad", "Faridabad"];
+const QUICK_LINKS = [
+  { to: "/", label: "Home", testId: "footer-link-home" },
+  { to: "/about", label: "About us", testId: "footer-link-about" },
+  { to: "/pricing", label: "Pricing", testId: "footer-link-pricing" },
+  { to: "/become-a-guard", label: "Become a Guard", testId: "footer-link-guard" },
+  { to: "/support", label: "Support / Help", testId: "footer-link-support" },
+  { to: "/contact", label: "Contact us", testId: "footer-link-contact" },
+];
+
+const LEGAL_LINKS = [
+  { to: "/privacy", label: "Privacy Policy", testId: "footer-link-privacy" },
+  { to: "/terms", label: "Terms & Conditions", testId: "footer-link-terms" },
+  {
+    to: "/refund-policy",
+    label: "Refund & Cancellation",
+    testId: "footer-link-refund",
+  },
+  {
+    to: "/service-delivery",
+    label: "Service Delivery Policy",
+    testId: "footer-link-service-delivery",
+  },
+  { to: "/dpdp", label: "DPDP Consent Notice", testId: "footer-link-dpdp" },
+];
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -13,29 +37,13 @@ export default function Footer() {
       className="relative mt-24 border-t border-[#D9A93D]/10 bg-[#0B0B0D]"
     >
       <div className="max-w-7xl mx-auto px-5 md:px-10 py-16 grid grid-cols-1 md:grid-cols-12 gap-10">
-        <div className="md:col-span-5">
+        {/* Brand */}
+        <div className="md:col-span-4">
           <Logo size="md" />
           <p className="mt-5 text-sm text-[#A0A0A5] max-w-sm leading-relaxed">
             Police-verified, trained protection — on demand. Built in India for
             HNI clients, women&apos;s safety, business, events and travel.
           </p>
-          <div className="mt-6 flex items-center gap-2 text-sm text-[#A0A0A5]">
-            <Mail className="w-4 h-4 text-[#D9A93D]" />
-            <a
-              href="mailto:contactus@therakshak.in"
-              data-testid="footer-contact-email"
-              className="hover:text-white transition-colors"
-            >
-              contactus@therakshak.in
-            </a>
-          </div>
-          <div className="mt-2 flex items-start gap-2 text-sm text-[#A0A0A5]">
-            <MapPin className="w-4 h-4 text-[#D9A93D] mt-0.5" />
-            <span>
-              Delhi NCR (Launch) — Gurugram · Noida · Ghaziabad · Faridabad
-            </span>
-          </div>
-
           <div className="mt-6 flex items-center gap-3">
             <a
               href="#"
@@ -67,103 +75,97 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* Quick links */}
         <div className="md:col-span-2">
-          <p className="label-eyebrow">Company</p>
+          <p className="label-eyebrow">Quick links</p>
           <ul className="mt-4 space-y-2.5 text-sm">
-            <li>
-              <Link
-                to="/about"
-                data-testid="footer-link-about"
-                className="text-white/80 hover:text-white"
-              >
-                About
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/become-a-guard"
-                data-testid="footer-link-careers"
-                className="text-white/80 hover:text-white"
-              >
-                Become a Guard
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/contact"
-                data-testid="footer-link-contact"
-                className="text-white/80 hover:text-white"
-              >
-                Contact
-              </Link>
-            </li>
+            {QUICK_LINKS.map((l) => (
+              <li key={l.to}>
+                <Link
+                  to={l.to}
+                  data-testid={l.testId}
+                  className="text-white/80 hover:text-white"
+                >
+                  {l.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
 
-        <div className="md:col-span-2">
+        {/* Legal */}
+        <div className="md:col-span-3">
           <p className="label-eyebrow">Legal</p>
           <ul className="mt-4 space-y-2.5 text-sm">
-            <li>
-              <Link
-                to="/privacy"
-                data-testid="footer-link-privacy"
-                className="text-white/80 hover:text-white"
-              >
-                Privacy Policy
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/terms"
-                data-testid="footer-link-terms"
-                className="text-white/80 hover:text-white"
-              >
-                Terms of Service
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/dpdp"
-                data-testid="footer-link-dpdp"
-                className="text-white/80 hover:text-white"
-              >
-                DPDP Consent
-              </Link>
-            </li>
+            {LEGAL_LINKS.map((l) => (
+              <li key={l.to}>
+                <Link
+                  to={l.to}
+                  data-testid={l.testId}
+                  className="text-white/80 hover:text-white"
+                >
+                  {l.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
 
+        {/* Contact */}
         <div className="md:col-span-3">
-          <p className="label-eyebrow">Serviceable Cities</p>
-          <div className="mt-4 flex flex-wrap gap-2">
-            {cities.map((c) => (
-              <span
-                key={c}
-                data-testid={`footer-city-${c.toLowerCase()}`}
-                className="inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full border border-[#D9A93D]/15 text-white/80 bg-white/[0.02]"
+          <p className="label-eyebrow">Contact</p>
+          <ul className="mt-4 space-y-3 text-sm text-[#A0A0A5]">
+            <li className="flex items-start gap-2">
+              <Mail className="w-4 h-4 text-[#D9A93D] mt-0.5" />
+              <a
+                href={`mailto:${COMPANY.supportEmail}`}
+                data-testid="footer-contact-email"
+                className="hover:text-white break-all"
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-[#D9A93D] rk-pulse" />
-                {c}
+                {COMPANY.supportEmail}
+              </a>
+            </li>
+            <li className="flex items-start gap-2">
+              <Phone className="w-4 h-4 text-[#D9A93D] mt-0.5" />
+              <a
+                href={`tel:${COMPANY.supportPhone.replace(/[^\d+]/g, "")}`}
+                data-testid="footer-contact-phone"
+                className="hover:text-white"
+              >
+                {COMPANY.supportPhone}
+              </a>
+            </li>
+            <li className="flex items-start gap-2">
+              <MapPin className="w-4 h-4 text-[#D9A93D] mt-0.5" />
+              <span data-testid="footer-contact-address">
+                {formatFullAddress()}
               </span>
-            ))}
+            </li>
+          </ul>
+          <div className="mt-5">
+            <p className="text-[10px] uppercase tracking-[0.2em] text-[#A0A0A5]">
+              Serviceable cities
+            </p>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {COMPANY.serviceCities.map((c) => (
+                <span
+                  key={c}
+                  data-testid={`footer-city-${c.toLowerCase()}`}
+                  className="inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full border border-[#D9A93D]/15 text-white/80 bg-white/[0.02]"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#D9A93D] rk-pulse" />
+                  {c}
+                </span>
+              ))}
+            </div>
           </div>
-          <p className="mt-5 text-xs text-[#A0A0A5] leading-relaxed">
-            More cities rolling out. Want RAKSHAK in your city?{" "}
-            <Link
-              to="/contact"
-              className="text-[#D9A93D] hover:text-[#E8C366] underline-offset-4 hover:underline"
-            >
-              Request access
-            </Link>
-            .
-          </p>
         </div>
       </div>
 
       <div className="border-t border-[#D9A93D]/10">
         <div className="max-w-7xl mx-auto px-5 md:px-10 py-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
-          <p className="text-xs text-[#A0A0A5]">
-            © {year} RAKSHAK Technologies Pvt. Ltd. — All rights reserved.
+          <p className="text-xs text-[#A0A0A5]" data-testid="footer-copyright">
+            © {year} {COMPANY.legalName}. All rights reserved.
           </p>
           <p className="text-xs text-[#A0A0A5]">
             Made in India · PSARA-compliant operations

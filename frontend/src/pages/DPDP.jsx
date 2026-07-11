@@ -1,12 +1,13 @@
 import React from "react";
 import LegalPage from "@/components/LegalPage";
+import { COMPANY } from "@/config/company";
 
-const UPDATED = "December 2025";
+const UPDATED = COMPANY.policiesUpdated;
 
 const sections = [
   {
     title: "1. Purpose of this notice",
-    body: "This notice (the \u201cDPDP Notice\u201d) is issued by RAKSHAK Technologies Pvt. Ltd. (\u201cRAKSHAK\u201d) in compliance with section 6 of the Digital Personal Data Protection Act, 2023 (the \u201cDPDP Act\u201d). It explains the personal data we will process about you, the purposes for processing, and the rights available to you as a Data Principal.",
+    body: `This notice (the "DPDP Notice") is issued by ${COMPANY.legalName} ("RAKSHAK") in compliance with section 6 of the Digital Personal Data Protection Act, 2023 (the "DPDP Act"). It explains the personal data we will process about you, the purposes for processing, and the rights available to you as a Data Principal.`,
   },
   {
     title: "2. Personal data we will process",

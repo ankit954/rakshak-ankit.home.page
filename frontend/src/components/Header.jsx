@@ -5,8 +5,10 @@ import Logo from "@/components/Logo";
 
 const NAV = [
   { to: "/", label: "Home", testId: "nav-home" },
+  { to: "/pricing", label: "Pricing", testId: "nav-pricing" },
   { to: "/become-a-guard", label: "Become a Guard", testId: "nav-become-guard" },
   { to: "/about", label: "About", testId: "nav-about" },
+  { to: "/support", label: "Support", testId: "nav-support" },
   { to: "/contact", label: "Contact", testId: "nav-contact" },
 ];
 

@@ -6,8 +6,12 @@ import Home from "@/pages/Home";
 import BecomeGuard from "@/pages/BecomeGuard";
 import About from "@/pages/About";
 import Contact from "@/pages/Contact";
+import Pricing from "@/pages/Pricing";
+import Support from "@/pages/Support";
 import Privacy from "@/pages/Privacy";
 import Terms from "@/pages/Terms";
+import Refund from "@/pages/Refund";
+import ServiceDelivery from "@/pages/ServiceDelivery";
 import DPDP from "@/pages/DPDP";
 import Login from "@/pages/Login";
 import Header from "@/components/Header";
@@ -37,9 +41,7 @@ const wrap = (Page) => (
 function isAdminHost() {
   if (typeof window === "undefined") return false;
   const h = window.location.hostname || "";
-  // Production / staging admin subdomains
   if (h.startsWith("admin.")) return true;
-  // Preview testing: ?admin=1 query string or /admin path-prefix opens the admin shell
   const sp = new URLSearchParams(window.location.search);
   if (sp.get("admin") === "1") return true;
   if (window.location.pathname.startsWith("/admin")) return true;
@@ -47,22 +49,23 @@ function isAdminHost() {
 }
 
 function App() {
-  if (isAdminHost()) {
-    return <AdminApp />;
-  }
+  if (isAdminHost()) return <AdminApp />;
   return (
     <BrowserRouter>
       <ScrollToTop />
       <Routes>
         <Route path="/" element={wrap(Home)} />
-        <Route path="/become-a-guard" element={wrap(BecomeGuard)} />
         <Route path="/about" element={wrap(About)} />
+        <Route path="/pricing" element={wrap(Pricing)} />
+        <Route path="/become-a-guard" element={wrap(BecomeGuard)} />
+        <Route path="/support" element={wrap(Support)} />
         <Route path="/contact" element={wrap(Contact)} />
         <Route path="/privacy" element={wrap(Privacy)} />
         <Route path="/terms" element={wrap(Terms)} />
+        <Route path="/refund-policy" element={wrap(Refund)} />
+        <Route path="/service-delivery" element={wrap(ServiceDelivery)} />
         <Route path="/dpdp" element={wrap(DPDP)} />
         <Route path="/login" element={wrap(Login)} />
-        {/* /book route kept hidden — no longer linked from public site */}
         <Route path="*" element={wrap(Home)} />
       </Routes>
     </BrowserRouter>
