@@ -216,22 +216,16 @@ export default function Pricing() {
               <Building2 className="w-5 h-5 text-[#D9A93D]" />
             </div>
             <h3 className="mt-4 font-display text-2xl text-white">
-              Enterprise & event contracts
+              Enterprise & event bookings
             </h3>
             <p className="mt-3 text-sm text-[#C7C7CC] leading-relaxed max-w-md">
               Bulk shifts, monthly residential detail, wedding-scale
-              deployments and jewellery-transit contracts are priced on
-              request with a written service level agreement.
+              deployments and jewellery-transit engagements are booked
+              transparently through the RAKSHAK app — the same fair,
+              in-app fare screen you see for any other booking.
             </p>
           </div>
           <div className="flex flex-wrap gap-3 justify-start md:justify-end">
-            <Link
-              to="/contact"
-              data-testid="pricing-enterprise-cta"
-              className="btn-gold rounded-lg px-5 py-3 text-sm inline-flex items-center gap-2"
-            >
-              Request a quote <ArrowRight className="w-4 h-4" />
-            </Link>
             <DownloadButtons testIdPrefix="pricing-download" />
           </div>
         </div>

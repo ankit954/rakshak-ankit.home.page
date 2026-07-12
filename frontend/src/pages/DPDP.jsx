@@ -1,6 +1,6 @@
 import React from "react";
 import LegalPage from "@/components/LegalPage";
-import { COMPANY } from "@/config/company";
+import { COMPANY, formatFullAddress } from "@/config/company";
 
 const UPDATED = COMPANY.policiesUpdated;
 
@@ -34,7 +34,7 @@ const sections = [
     body: [
       "By creating a RAKSHAK account or booking a service, you consent to the processing of your personal data for the purposes described above.",
       "Your consent is free, specific, informed, unconditional and unambiguous, and is recorded with a clear affirmative action in our app or website.",
-      "You may withdraw consent at any time from in-app Settings or by writing to contactus@therakshak.in. Withdrawal does not affect the lawfulness of processing prior to withdrawal, and may limit our ability to provide certain Services.",
+      `You may withdraw consent at any time from in-app Settings or by writing to ${COMPANY.supportEmail}. Withdrawal does not affect the lawfulness of processing prior to withdrawal, and may limit our ability to provide certain Services.`,
     ],
   },
   {
@@ -58,16 +58,16 @@ const sections = [
   {
     title: "8. How to exercise your rights",
     body: [
-      "Email contactus@therakshak.in from the email address registered with your account with the subject line \u201cDPDP Request \u2014 [type of request]\u201d.",
+      `Email ${COMPANY.supportEmail} from the email address registered with your account with the subject line "DPDP Request \u2014 [type of request]".`,
       "We acknowledge requests within 48 hours and respond substantively within 15 days, except where the law allows a longer period.",
     ],
   },
   {
     title: "9. Grievance Officer",
     body: [
-      "Grievance Officer, RAKSHAK Technologies Pvt. Ltd.",
-      "Email: contactus@therakshak.in",
-      "Address: Delhi NCR, India",
+      `Grievance Officer, ${COMPANY.legalName}`,
+      `Email: ${COMPANY.supportEmail}`,
+      `Address: ${formatFullAddress()}`,
     ],
   },
   {

@@ -1,39 +1,32 @@
 /**
  * Single source of truth for legal/registered company details.
- * Payment gateway reviewers (BillDesk / Razorpay / etc.) check that
- * the SAME entity name, address, email and phone appear consistently
- * across Contact / Privacy / Terms / Refund / Service Delivery pages.
- *
- * ⚠️ Replace the placeholder values below with the final registered
- * company details BEFORE submitting for gateway approval. All pages
- * update automatically.
+ * Every legal / contact / footer surface reads from here so a change
+ * in one place ripples through the whole site.
  */
 export const COMPANY = {
   // Legal / registered entity
   legalName: "RAKSHAK Technologies Private Limited",
   brandName: "RAKSHAK",
-  // If you have a CIN / GSTIN, drop them here — reviewers appreciate the
-  // extra proof of legitimacy. Leave "" if you don't yet.
   cin: "",
   gstin: "",
 
-  // Registered office address (put the address on your Certificate of Incorporation)
+  // Registered office
   registeredAddress: {
-    line1: "[Registered Office Address, Line 1]",
-    line2: "[Line 2 / Landmark]",
-    city: "New Delhi",
-    state: "Delhi",
-    pincode: "110001",
+    line1: "Unit No. O-1013, 10th Floor, EON, Plot No. 01A",
+    line2: "Sector 140A",
+    city: "Noida",
+    state: "Uttar Pradesh",
+    pincode: "201304",
     country: "India",
   },
 
   // Public support / grievance
-  supportEmail: "contactus@therakshak.in",
+  supportEmail: "support@therakshak.in",
   grievanceOfficer: {
     name: "Grievance Officer",
-    email: "contactus@therakshak.in",
+    email: "support@therakshak.in",
   },
-  supportPhone: "+91-XXXXXXXXXX", // replace before submission
+  supportPhone: "+91 86032 93767",
   supportHours: "Mon – Sat, 9:00 – 21:00 IST",
 
   // Regions currently live
@@ -50,7 +43,7 @@ export const COMPANY = {
   site: "https://therakshak.in",
   adminSite: "https://admin.therakshak.in",
 
-  // Effective date of the latest legal-page revision (bump when you edit)
+  // Effective date of the latest legal-page revision
   policiesUpdated: "December 2025",
 };
 
