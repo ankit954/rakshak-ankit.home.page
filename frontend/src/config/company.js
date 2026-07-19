@@ -5,7 +5,7 @@
  */
 export const COMPANY = {
   // Legal / registered entity
-  legalName: "RAKSHAK Technologies Private Limited",
+  legalName: "Pyramid Syndicate",
   brandName: "RAKSHAK",
   cin: "",
   gstin: "",
