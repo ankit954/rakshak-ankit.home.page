@@ -41,7 +41,6 @@ export const COMPANY = {
 
   // Web
   site: "https://therakshak.in",
-  adminSite: "https://admin.therakshak.in",
 
   // Effective date of the latest legal-page revision
   policiesUpdated: "December 2025",

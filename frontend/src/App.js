@@ -19,8 +19,6 @@ import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
 import { Toaster } from "sonner";
 
-import AdminApp from "@/admin/AdminApp";
-
 function PublicLayout({ children }) {
   return (
     <div className="App" data-testid="app-root">
@@ -38,18 +36,7 @@ const wrap = (Page) => (
   </PublicLayout>
 );
 
-function isAdminHost() {
-  if (typeof window === "undefined") return false;
-  const h = window.location.hostname || "";
-  if (h.startsWith("admin.")) return true;
-  const sp = new URLSearchParams(window.location.search);
-  if (sp.get("admin") === "1") return true;
-  if (window.location.pathname.startsWith("/admin")) return true;
-  return false;
-}
-
 function App() {
-  if (isAdminHost()) return <AdminApp />;
   return (
     <BrowserRouter>
       <ScrollToTop />

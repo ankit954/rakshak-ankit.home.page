@@ -16,9 +16,6 @@ import WaitlistForm from "@/components/WaitlistForm";
  * Per product decision: customers and guards do NOT have a web login.
  * Authentication lives in the mobile app. This screen explains that
  * and routes them to download (or the early-access waitlist until launch).
- *
- * The ONLY web login on the project is the admin login at
- * admin.therakshak.in (served from the same React build by host-based routing).
  */
 export default function Login() {
   return (
@@ -108,8 +105,7 @@ export default function Login() {
 
         <div className="mt-12 text-center text-xs text-[#A0A0A5]">
           <CheckCircle2 className="w-3.5 h-3.5 inline-block mr-1 text-[#D9A93D]" />
-          The only web sign-in on RAKSHAK is for internal admins, on a
-          separate domain. It is not linked from this site.
+          Sign-in and sign-up happen securely inside the RAKSHAK mobile app.
         </div>
       </div>
     </section>
