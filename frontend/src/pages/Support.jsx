@@ -257,7 +257,7 @@ export default function Support() {
       <Section testId="support-address" className="pt-0">
         <div className="text-xs text-[#A0A0A5] leading-relaxed">
           Postal correspondence:{" "}
-          <span className="text-white">{COMPANY.legalName}</span>,{" "}
+          <span className="text-white">{COMPANY.brandName}</span>,{" "}
           {formatFullAddress()}.
         </div>
       </Section>

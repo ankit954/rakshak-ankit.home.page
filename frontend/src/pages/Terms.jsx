@@ -1,6 +1,6 @@
 import React from "react";
 import LegalPage from "@/components/LegalPage";
-import { COMPANY, formatFullAddress } from "@/config/company";
+import { COMPANY } from "@/config/company";
 
 // NOTE FOR LEGAL REVIEW:
 // This wording is drafted to be careful and defensible under Indian consumer
@@ -11,7 +11,7 @@ import { COMPANY, formatFullAddress } from "@/config/company";
 const sections = [
   {
     title: "1. Agreement",
-    body: `These Terms of Service (the "Terms") constitute a legally binding agreement between you and ${COMPANY.legalName} ("RAKSHAK", "we", "us", "our") governing your access to and use of the RAKSHAK website, mobile applications and all related services (the "Services"). By creating an account, booking a service or otherwise using the Services, you accept and agree to be bound by these Terms.`,
+    body: `These Terms of Service (the "Terms") constitute a legally binding agreement between you and the RAKSHAK brand ("RAKSHAK", "we", "us", "our"), operated by the legal entity identified on our Contact page, governing your access to and use of the RAKSHAK website, mobile applications and all related services (the "Services"). By accessing this website, creating an account, booking a service or otherwise using the Services, you acknowledge that you have read, understood and agree to be bound by these Terms together with our Privacy Policy, Refund & Cancellation Policy and Service Delivery Policy, all of which are published on this website and are accessible to you at any time. If you do not agree, please do not use the Services.`,
   },
   {
     title: "2. Eligibility",
@@ -86,38 +86,53 @@ const sections = [
     ],
   },
   {
-    title: "12. Account suspension & termination",
+    title: "12. Assumption of risk & acknowledgement",
+    body: [
+      "You acknowledge that on-ground personal-security services carry inherent risks that cannot be entirely eliminated by any provider or platform. RAKSHAK takes reasonable steps (verification, training standards, live tracking, SOS) to reduce these risks, but you understand and accept that a booking does not amount to a guarantee of any specific outcome.",
+      "You acknowledge that these Terms, together with our Privacy Policy, Refund & Cancellation Policy, Service Delivery Policy and Pricing, are published and permanently accessible on this website, that you have had the opportunity to read them before using the Services, and that your use of the Services constitutes informed acceptance of them.",
+      "You agree to use the Services in good faith and to raise any concern through the grievance and complaints process set out in these Terms before pursuing other remedies.",
+    ],
+  },
+  {
+    title: "13. Indemnity",
+    body: `To the extent permitted by applicable law, you agree to indemnify and hold harmless RAKSHAK, its operating entity, officers, employees and partners from and against claims, damages, liabilities and reasonable expenses arising out of (a) your breach of these Terms, (b) your unlawful acts or omissions, (c) instructions you give that cause a Guard to act unlawfully or unsafely, or (d) your misuse of the Services. This clause does not require you to indemnify RAKSHAK for losses caused by RAKSHAK's own negligence or wilful default, and does not limit any non-excludable rights you have under Indian law.`,
+  },
+  {
+    title: "14. Account suspension & termination",
     body: [
       "We may suspend or terminate your account for material breach of these Terms \u2014 including fraud, non-payment, harassment, safety incidents, false claims, chargeback abuse or violation of applicable law. Where reasonably practicable and lawful, we will give notice and an opportunity to respond.",
       "You may close your RAKSHAK account at any time from in-app settings. Certain data will be retained as described in our Privacy Policy for legal and accounting reasons.",
     ],
   },
   {
-    title: "13. Grievance redressal & dispute resolution",
+    title: "15. Grievance redressal & dispute resolution",
     body: [
       "We aim to resolve every issue through good-faith conversation. Please contact our Grievance Officer first (see the Contact section).",
       "[LEGAL REVIEW: confirm dispute-resolution mechanism.] Any dispute that cannot be resolved amicably may be referred to arbitration by a sole arbitrator under the Arbitration and Conciliation Act, 1996. The seat and venue of arbitration shall be [LEGAL REVIEW: insert seat/venue, e.g. New Delhi]. The language of arbitration shall be English. Nothing in this clause prevents a consumer from pursuing remedies available under the Consumer Protection Act, 2019.",
     ],
   },
   {
-    title: "14. Governing law & jurisdiction",
+    title: "16. Governing law & jurisdiction",
     body: `These Terms are governed by, and construed in accordance with, the laws of the Republic of India. Subject to the clause above and to any non-excludable consumer rights, the competent courts at [LEGAL REVIEW: insert jurisdiction, e.g. New Delhi] shall have jurisdiction.`,
   },
   {
-    title: "15. Intellectual property",
-    body: `The RAKSHAK name, logo, design, source code, content, product features and platform are the intellectual property of ${COMPANY.legalName}, protected by Indian and international laws. You may not copy, modify, distribute, reverse-engineer or create derivative works of any part of the Services without our prior written consent.`,
+    title: "17. Intellectual property",
+    body: `The RAKSHAK name, logo, design, source code, content, product features and platform are the intellectual property of the RAKSHAK brand and its operating entity (identified on our Contact page), protected by Indian and international laws. You may not copy, modify, distribute, reverse-engineer or create derivative works of any part of the Services without our prior written consent.`,
   },
   {
-    title: "16. Changes to these Terms",
-    body: `We may update these Terms from time to time. Material changes will be notified in-app or by email. Your continued use of the Services after such changes constitutes acceptance of the revised Terms.`,
-  },
-  {
-    title: "17. Contact",
+    title: "18. Severability & changes to these Terms",
     body: [
-      `${COMPANY.legalName}`,
-      formatFullAddress(),
+      "If any provision of these Terms is held to be invalid or unenforceable under applicable law, that provision will be limited or severed to the minimum extent necessary, and the remaining provisions will continue in full force and effect.",
+      "We may update these Terms from time to time. Material changes will be notified in-app or by email, and the updated version will always be available on this website. Your continued use of the Services after such changes constitutes acceptance of the revised Terms.",
+    ],
+  },
+  {
+    title: "19. Contact",
+    body: [
+      `${COMPANY.brandName}`,
       `Support: ${COMPANY.supportEmail} \u00b7 ${COMPANY.supportPhone}`,
       `Grievance Officer: ${COMPANY.grievanceOfficer.email}`,
+      `Full registered-entity details are available on our Contact page.`,
     ],
   },
 ];

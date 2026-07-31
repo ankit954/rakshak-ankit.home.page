@@ -6,7 +6,7 @@ const sections = [
   {
     title: "1. Who we are",
     body: [
-      `${COMPANY.legalName} (“RAKSHAK”, “we”, “us”, “our”) is the operator of the RAKSHAK on-demand personal-security platform. Our registered office is at ${formatFullAddress()}.`,
+      `RAKSHAK ("RAKSHAK", "we", "us", "our") is the brand operating the on-demand personal-security platform; the operating legal entity is identified on our Contact page. Our registered office is at ${formatFullAddress()}.`,
       `This Privacy Policy explains what personal data we collect, why, how it is stored and protected, whom we share it with and your rights under the Digital Personal Data Protection Act, 2023 (“DPDP Act”). It applies to our website ${COMPANY.site}, the RAKSHAK mobile applications and all related services (together, the “Services”).`,
     ],
   },
@@ -92,7 +92,7 @@ const sections = [
     title: "11. Grievance Officer",
     body: [
       `In accordance with the DPDP Act and the Information Technology Act, 2000, the contact details of our Grievance Officer are:`,
-      `${COMPANY.grievanceOfficer.name}, ${COMPANY.legalName}`,
+      `${COMPANY.grievanceOfficer.name}, ${COMPANY.brandName}`,
       `Email: ${COMPANY.grievanceOfficer.email}`,
       `Address: ${formatFullAddress()}`,
       `Business hours: ${COMPANY.supportHours}`,

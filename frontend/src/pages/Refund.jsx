@@ -5,7 +5,7 @@ import { COMPANY, formatFullAddress } from "@/config/company";
 const sections = [
   {
     title: "1. Overview",
-    body: `This Refund & Cancellation Policy governs cancellations of, and refunds for, personal-security bookings made through the RAKSHAK platform (the "Services") operated by ${COMPANY.legalName} ("RAKSHAK", "we", "us"). By making a booking you agree to the terms below in addition to our Terms of Service.`,
+    body: `This Refund & Cancellation Policy governs cancellations of, and refunds for, personal-security bookings made through the RAKSHAK platform (the "Services"). "RAKSHAK", "we", "us" and "our" refer to the RAKSHAK brand, operated by the entity identified on our Contact page. By making a booking you agree to the terms below in addition to our Terms of Service.`,
   },
   {
     title: "2. Cancellation by the customer",
@@ -68,7 +68,7 @@ const sections = [
   {
     title: "9. Contact for refund escalations",
     body: [
-      `Grievance Officer, ${COMPANY.legalName}`,
+      `Grievance Officer, ${COMPANY.brandName}`,
       `Email: ${COMPANY.grievanceOfficer.email}`,
       `Address: ${formatFullAddress()}`,
       `Business hours: ${COMPANY.supportHours}`,

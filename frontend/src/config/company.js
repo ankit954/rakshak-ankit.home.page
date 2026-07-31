@@ -26,7 +26,7 @@ export const COMPANY = {
     name: "Grievance Officer",
     email: "support@therakshak.in",
   },
-  supportPhone: "+91 86032 93767",
+  supportPhone: "+91 70701 31111",
   supportHours: "Mon – Sat, 9:00 – 21:00 IST",
 
   // Regions currently live

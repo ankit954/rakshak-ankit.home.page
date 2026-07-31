@@ -7,7 +7,7 @@ const UPDATED = COMPANY.policiesUpdated;
 const sections = [
   {
     title: "1. Purpose of this notice",
-    body: `This notice (the "DPDP Notice") is issued by ${COMPANY.legalName} ("RAKSHAK") in compliance with section 6 of the Digital Personal Data Protection Act, 2023 (the "DPDP Act"). It explains the personal data we will process about you, the purposes for processing, and the rights available to you as a Data Principal.`,
+    body: `This notice (the "DPDP Notice") is issued by ${COMPANY.brandName} ("RAKSHAK") in compliance with section 6 of the Digital Personal Data Protection Act, 2023 (the "DPDP Act"). It explains the personal data we will process about you, the purposes for processing, and the rights available to you as a Data Principal.`,
   },
   {
     title: "2. Personal data we will process",
@@ -65,7 +65,7 @@ const sections = [
   {
     title: "9. Grievance Officer",
     body: [
-      `Grievance Officer, ${COMPANY.legalName}`,
+      `Grievance Officer, ${COMPANY.brandName}`,
       `Email: ${COMPANY.supportEmail}`,
       `Address: ${formatFullAddress()}`,
     ],

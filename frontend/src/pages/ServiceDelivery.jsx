@@ -5,7 +5,7 @@ import { COMPANY, formatFullAddress } from "@/config/company";
 const sections = [
   {
     title: "1. Purpose",
-    body: `This Service Delivery Policy explains how ${COMPANY.legalName} ("RAKSHAK") facilitates the delivery of personal-security services booked through the RAKSHAK mobile application. Because RAKSHAK is a service — not a physical good — this policy is the equivalent of a shipping / delivery policy for on-ground service delivery.`,
+    body: `This Service Delivery Policy explains how ${COMPANY.brandName} ("RAKSHAK") facilitates the delivery of personal-security services booked through the RAKSHAK mobile application. Because RAKSHAK is a service — not a physical good — this policy is the equivalent of a shipping / delivery policy for on-ground service delivery.`,
   },
   {
     title: "2. Platform role",
@@ -83,7 +83,7 @@ const sections = [
   {
     title: "11. Contact",
     body: [
-      `${COMPANY.legalName}`,
+      `${COMPANY.brandName}`,
       formatFullAddress(),
       `Support: ${COMPANY.supportEmail} · ${COMPANY.supportPhone}`,
       `Business hours: ${COMPANY.supportHours}`,

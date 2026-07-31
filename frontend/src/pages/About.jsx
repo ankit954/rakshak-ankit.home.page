@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import Section from "@/components/Section";
 import DownloadButtons from "@/components/DownloadButtons";
-import { COMPANY, formatFullAddress } from "@/config/company";
+import { COMPANY } from "@/config/company";
 
 const VALUES = [
   {
@@ -94,7 +94,7 @@ export default function About() {
           </p>
           <div className="mt-6 inline-flex flex-wrap items-center justify-center gap-2 text-xs text-[#A0A0A5]">
             <span className="px-3 py-1 rounded-full border border-[#D9A93D]/20 bg-white/[0.02]">
-              Operated by {COMPANY.legalName}
+              A RAKSHAK service
             </span>
             <span className="px-3 py-1 rounded-full border border-[#D9A93D]/20 bg-white/[0.02]">
               City of operation: {COMPANY.serviceRegion}
@@ -302,45 +302,6 @@ export default function About() {
             >
               Become a Guard <ArrowRight className="w-4 h-4" />
             </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* LEGAL ENTITY — visible for gateway reviewers */}
-      <section
-        data-testid="about-entity"
-        className="border-t border-[#D9A93D]/10 bg-[#0E0E11]"
-      >
-        <div className="max-w-5xl mx-auto px-5 md:px-10 py-10 grid md:grid-cols-3 gap-6 text-sm">
-          <div>
-            <p className="label-eyebrow">Registered entity</p>
-            <p className="mt-2 font-display text-lg text-white">
-              {COMPANY.legalName}
-            </p>
-            {COMPANY.cin && (
-              <p className="mt-1 text-xs text-[#A0A0A5]">CIN: {COMPANY.cin}</p>
-            )}
-            {COMPANY.gstin && (
-              <p className="mt-1 text-xs text-[#A0A0A5]">
-                GSTIN: {COMPANY.gstin}
-              </p>
-            )}
-          </div>
-          <div>
-            <p className="label-eyebrow">Registered office</p>
-            <p className="mt-2 text-[#C7C7CC]">{formatFullAddress()}</p>
-          </div>
-          <div>
-            <p className="label-eyebrow">Reach us</p>
-            <p className="mt-2 text-[#C7C7CC]">
-              {COMPANY.supportEmail}
-              <br />
-              {COMPANY.supportPhone}
-              <br />
-              <span className="text-xs text-[#A0A0A5]">
-                {COMPANY.supportHours}
-              </span>
-            </p>
           </div>
         </div>
       </section>
