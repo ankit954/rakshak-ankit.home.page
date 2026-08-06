@@ -165,7 +165,7 @@ export default function Footer() {
       <div className="border-t border-[#D9A93D]/10">
         <div className="max-w-7xl mx-auto px-5 md:px-10 py-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
           <p className="text-xs text-[#A0A0A5]" data-testid="footer-copyright">
-            © {year} {COMPANY.legalName}. All rights reserved.
+            © {year} {COMPANY.brandName}. All rights reserved.
           </p>
           <p className="text-xs text-[#A0A0A5]">
             Made in India · PSARA-compliant operations

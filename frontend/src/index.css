@@ -196,3 +196,88 @@ select:focus {
         @apply border-border;
     }
 }
+
+/* ============================================================
+   LIGHT THEME
+   Dark is default (:root). We flip CSS variables + override the
+   hardcoded utility classes used across the site. Cinematic
+   hero / CTA blocks marked `.keep-dark` stay dark in both themes.
+   ============================================================ */
+html[data-theme="light"] {
+    --rk-bg: #F6F3EC;
+    --rk-surface: #FFFFFF;
+    --rk-text: #17171B;
+    --rk-text-muted: #55555F;
+    --rk-border: rgba(176, 137, 43, 0.28);
+}
+html[data-theme="light"] body {
+    background-color: #F6F3EC;
+    color: #17171B;
+}
+html[data-theme="light"] .App {
+    background: #F6F3EC;
+}
+
+/* Surfaces */
+html[data-theme="light"] .bg-\[\#0B0B0D\] { background-color: #F6F3EC !important; }
+html[data-theme="light"] .bg-\[\#0E0E11\] { background-color: #EFEADF !important; }
+html[data-theme="light"] .bg-\[\#131316\] { background-color: #FFFFFF !important; }
+html[data-theme="light"] .card-rk {
+    background: #FFFFFF !important;
+    border-color: rgba(176, 137, 43, 0.22) !important;
+    box-shadow: 0 6px 20px rgba(20, 16, 4, 0.06);
+}
+html[data-theme="light"] .card-rk:hover {
+    border-color: rgba(176, 137, 43, 0.5) !important;
+    box-shadow: 0 16px 40px rgba(20, 16, 4, 0.1);
+}
+
+/* Text */
+html[data-theme="light"] .text-white { color: #17171B !important; }
+html[data-theme="light"] .text-white\/90 { color: #24242B !important; }
+html[data-theme="light"] .text-white\/85 { color: #2C2C34 !important; }
+html[data-theme="light"] .text-white\/80 { color: #34343C !important; }
+html[data-theme="light"] .text-\[\#C7C7CC\] { color: #3B3B44 !important; }
+html[data-theme="light"] .text-\[\#C7C7CC\]\/85 { color: #43434C !important; }
+html[data-theme="light"] .text-\[\#A0A0A5\] { color: #5C5C66 !important; }
+
+/* Header glass in light */
+html[data-theme="light"] .bg-\[\#0B0B0D\]\/85 { background-color: rgba(246, 243, 236, 0.85) !important; }
+html[data-theme="light"] .bg-\[\#0B0B0D\]\/95 { background-color: rgba(246, 243, 236, 0.96) !important; }
+
+/* Ghost-gold button text (used by header Log in / secondary CTAs) */
+html[data-theme="light"] .btn-ghost-gold { color: #17171B; border-color: rgba(176,137,43,0.4); }
+html[data-theme="light"] .btn-ghost-gold:hover { background: rgba(217,169,61,0.1); }
+
+/* Inputs */
+html[data-theme="light"] input,
+html[data-theme="light"] textarea,
+html[data-theme="light"] select {
+    background: #FFFFFF;
+    border-color: rgba(176, 137, 43, 0.35);
+    color: #17171B;
+}
+html[data-theme="light"] select { background: #FFFFFF; }
+html[data-theme="light"] ::selection { background: rgba(217,169,61,0.3); color: #17171B; }
+
+/* ---- KEEP-DARK islands (heros, final CTAs) stay dark in light theme ---- */
+html[data-theme="light"] .keep-dark { background-color: #0B0B0D; }
+html[data-theme="light"] .keep-dark .text-white,
+html[data-theme="light"] .keep-dark .font-display { color: #FFFFFF !important; }
+html[data-theme="light"] .keep-dark .text-white\/90 { color: rgba(255,255,255,0.9) !important; }
+html[data-theme="light"] .keep-dark .text-white\/85 { color: rgba(255,255,255,0.85) !important; }
+html[data-theme="light"] .keep-dark .text-white\/80 { color: rgba(255,255,255,0.8) !important; }
+html[data-theme="light"] .keep-dark .text-\[\#C7C7CC\],
+html[data-theme="light"] .keep-dark .text-\[\#C7C7CC\]\/85 { color: #C7C7CC !important; }
+html[data-theme="light"] .keep-dark .text-\[\#A0A0A5\] { color: #A0A0A5 !important; }
+html[data-theme="light"] .keep-dark .card-rk { background: #131316 !important; border-color: rgba(217,169,61,0.15) !important; }
+html[data-theme="light"] .keep-dark input,
+html[data-theme="light"] .keep-dark textarea,
+html[data-theme="light"] .keep-dark select { background: rgba(255,255,255,0.03); border-color: rgba(217,169,61,0.2); color: #fff; }
+
+/* Smooth theme change */
+html.theme-ready body,
+html.theme-ready .card-rk,
+html.theme-ready .btn-ghost-gold {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
