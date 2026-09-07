@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { Menu, X, Download, LogIn } from "lucide-react";
 import Logo from "@/components/Logo";
+import { PLAY_STORE_URL } from "@/config/appLinks";
 
 const NAV = [
   { to: "/", label: "Home", testId: "nav-home" },
@@ -28,12 +29,6 @@ export default function Header() {
     setOpen(false);
   }, [pathname]);
 
-  const onDownloadClick = (e) => {
-    e.preventDefault();
-    const target = document.getElementById("download");
-    if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
-
   return (
     <header
       data-testid="site-header"
@@ -49,7 +44,7 @@ export default function Header() {
         </Link>
 
         <nav
-          className="hidden md:flex items-center gap-1"
+          className="hidden xl:flex items-center gap-1"
           data-testid="primary-nav"
         >
           {NAV.map((n) => (
@@ -90,10 +85,11 @@ export default function Header() {
             Log in
           </button>
           <a
-            href="#download"
-            onClick={onDownloadClick}
+            href={PLAY_STORE_URL}
+            target="_blank"
+            rel="noopener"
             data-testid="header-download-cta"
-            className="hidden sm:inline-flex items-center gap-2 btn-gold rounded-lg px-4 py-2 text-sm"
+            className="inline-flex items-center gap-2 btn-gold rounded-lg px-3 sm:px-4 py-2 text-sm whitespace-nowrap"
           >
             <Download className="w-4 h-4" strokeWidth={2} />
             Download App
@@ -102,8 +98,10 @@ export default function Header() {
             type="button"
             onClick={() => setOpen((v) => !v)}
             data-testid="mobile-nav-toggle"
-            className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-md border border-[#D9A93D]/20 text-white"
+            className="xl:hidden inline-flex items-center justify-center w-10 h-10 rounded-md border border-[#D9A93D]/20 text-white"
             aria-label="Toggle navigation"
+            aria-expanded={open}
+            aria-controls="mobile-nav-panel"
           >
             {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -113,7 +111,8 @@ export default function Header() {
       {/* Mobile dropdown */}
       {open && (
         <div
-          className="md:hidden bg-[#0B0B0D]/95 backdrop-blur-xl border-t border-[#D9A93D]/10"
+          id="mobile-nav-panel"
+          className="xl:hidden bg-[#0B0B0D]/95 backdrop-blur-xl border-t border-[#D9A93D]/10"
           data-testid="mobile-nav-panel"
         >
           <div className="max-w-7xl mx-auto px-5 py-4 flex flex-col gap-1">
@@ -134,8 +133,10 @@ export default function Header() {
               </NavLink>
             ))}
             <a
-              href="#download"
-              onClick={onDownloadClick}
+              href={PLAY_STORE_URL}
+              target="_blank"
+              rel="noopener"
+              onClick={() => setOpen(false)}
               data-testid="header-download-cta-mobile"
               className="mt-2 inline-flex items-center justify-center gap-2 btn-gold rounded-lg px-4 py-3 text-sm"
             >

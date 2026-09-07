@@ -90,7 +90,7 @@ const JOIN_STEPS = [
   {
     icon: Smartphone,
     title: "Download the app",
-    desc: "Get RAKSHAK Pro from Play Store / App Store (coming soon).",
+    desc: "Get RAKSHAK from Google Play. iOS coming soon.",
   },
   {
     icon: UserPlus,
@@ -151,8 +151,8 @@ export default function BecomeGuard() {
             </p>
             <div className="mt-9">
               <DownloadButtons testIdPrefix="recruit-hero-download" />
-              <p className="mt-3 text-xs text-[#A0A0A5]">
-                RAKSHAK Pro app for guards — Coming Soon.
+              <p data-testid="recruit-app-availability" className="mt-3 text-xs text-[#A0A0A5]">
+                Now on Google Play · iOS coming soon
               </p>
             </div>
             <div className="mt-10 grid grid-cols-3 max-w-md gap-4">
@@ -383,7 +383,7 @@ export default function BecomeGuard() {
             <span className="gold-text">The path shouldn&apos;t be.</span>
           </h2>
           <p className="mt-5 text-base md:text-lg text-[#A0A0A5] max-w-2xl mx-auto">
-            Download RAKSHAK Pro. Submit your docs. Start earning the moment
+            Download RAKSHAK. Submit your docs. Start earning the moment
             we verify.
           </p>
           <div className="mt-9 flex justify-center">

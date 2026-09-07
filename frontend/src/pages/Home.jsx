@@ -267,12 +267,12 @@ export default function Home() {
 
             <div className="mt-9" id="download">
               <DownloadButtons testIdPrefix="hero-download" />
-              <p className="mt-3 text-xs text-[#A0A0A5]">
-                Apps releasing soon · Be the first to know — Coming Soon
+              <p data-testid="hero-app-availability" className="mt-3 text-xs text-[#A0A0A5]">
+                Now on Google Play · iOS coming soon
               </p>
               <div className="mt-6">
-                <p className="text-xs uppercase tracking-[0.2em] text-[#D9A93D] mb-2">
-                  Join the early-access list
+                <p data-testid="hero-updates-heading" className="text-xs uppercase tracking-[0.2em] text-[#D9A93D] mb-2">
+                  Get launch updates &amp; offers
                 </p>
                 <WaitlistForm
                   source="hero"
@@ -618,16 +618,15 @@ export default function Home() {
             <br />
             <span className="gold-text">should be the right one.</span>
           </h2>
-          <p className="mt-5 text-base md:text-lg text-[#A0A0A5] max-w-2xl mx-auto">
-            Join the RAKSHAK early-access list. Apps drop on Play Store and App
-            Store soon.
+          <p data-testid="cta-app-availability" className="mt-5 text-base md:text-lg text-[#A0A0A5] max-w-2xl mx-auto">
+            Now on Google Play · iOS coming soon
           </p>
           <div className="mt-9 flex justify-center">
             <DownloadButtons testIdPrefix="cta-download" />
           </div>
           <div className="mt-8">
-            <p className="text-xs uppercase tracking-[0.2em] text-[#D9A93D] mb-3">
-              Or — Join the waitlist
+            <p data-testid="cta-updates-heading" className="text-xs uppercase tracking-[0.2em] text-[#D9A93D] mb-3">
+              Get launch updates &amp; offers
             </p>
             <WaitlistForm
               source="final-cta"
