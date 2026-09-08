@@ -209,8 +209,8 @@ export default function BecomeGuard() {
                     </div>
                   ))}
                 </div>
-                <button className="mt-6 w-full btn-gold rounded-lg py-2.5 text-sm">
-                  Withdraw to Bank
+                <button data-testid="recruit-payout-bank-button" className="mt-6 w-full btn-gold rounded-lg py-2.5 text-sm">
+                  Deposited In Bank
                 </button>
               </div>
             </div>

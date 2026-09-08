@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { Menu, X, Download, LogIn } from "lucide-react";
+import { Menu, X, Download } from "lucide-react";
 import Logo from "@/components/Logo";
 import { PLAY_STORE_URL } from "@/config/appLinks";
 
@@ -73,17 +73,6 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={(e) => e.preventDefault()}
-            data-testid="header-login-cta"
-            aria-disabled="true"
-            title="Login is available in the RAKSHAK mobile app"
-            className="hidden sm:inline-flex items-center gap-2 btn-ghost-gold rounded-lg px-4 py-2 text-sm cursor-default"
-          >
-            <LogIn className="w-4 h-4" strokeWidth={2} />
-            Log in
-          </button>
           <a
             href={PLAY_STORE_URL}
             target="_blank"
@@ -142,15 +131,6 @@ export default function Header() {
             >
               <Download className="w-4 h-4" /> Download App
             </a>
-            <button
-              type="button"
-              onClick={(e) => e.preventDefault()}
-              data-testid="header-login-cta-mobile"
-              aria-disabled="true"
-              className="mt-1 inline-flex items-center justify-center gap-2 btn-ghost-gold rounded-lg px-4 py-3 text-sm cursor-default"
-            >
-              <LogIn className="w-4 h-4" /> Log in
-            </button>
           </div>
         </div>
       )}

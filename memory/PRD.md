@@ -5,7 +5,7 @@ Build a public marketing website for RAKSHAK with no web login, a premium dark-a
 
 ## Product constraints
 - Use RAKSHAK throughout the site. The legal entity name is restricted to the Contact page.
-- Header Log in buttons are intentionally inert. Do not restore the removed frontend admin panel or add a web authentication flow.
+- Header Log in buttons were removed from desktop and mobile on 2026-09-08. Do not restore them, the removed frontend admin panel, or any web authentication flow.
 - Legal/policy pages must remain one click away from every footer.
 - Preserve the established dark-and-gold visual language for incremental updates.
 - Customer contact phone: 7070131111, centralized in company configuration.
@@ -13,7 +13,7 @@ Build a public marketing website for RAKSHAK with no web login, a premium dark-a
 ## Current architecture
 - React with react-router, Tailwind, reusable UI components and Sonner toasts.
 - `/app/frontend/src/App.js`: public layout, Header/Footer and routes for `/`, `/about`, `/pricing`, `/become-a-guard`, `/support`, `/contact`, `/privacy`, `/terms`, `/refund-policy`, `/service-delivery`, `/dpdp`, `/login`.
-- `/login` is only a public informational app-download page, not authentication. It is not linked by the inert Log in buttons.
+- `/login` is only a public informational app-download page, not authentication. It is not linked from the header.
 - `/app/frontend/src/components/DownloadButtons.jsx`: shared official Google Play and App Store artwork, with active or disabled behavior determined by store configuration.
 - `/app/frontend/src/config/appLinks.js`: shared environment-based store URLs for badges, desktop/mobile header and footer CTAs.
 - `/app/frontend/src/config/company.js`: centralized company/contact details used by informational and policy pages.
@@ -63,6 +63,21 @@ Implemented:
 - Backend and real form submissions were deliberately not retested; no seeded data or mocked APIs. Earlier report recorded Atlas reachability issues, which are not resolved by this frontend-only change.
 - Non-blocking preview analytics `cdn-cgi/rum` aborted requests occurred during rapid automated navigation; no application bug identified.
 - Testing agent changed only its report, not application source.
+
+## Completed 2026-09-08 — Become a Guard visual label edit
+- User requested the payout-card button at `BecomeGuard.jsx` line 212 read `Deposited In Bank`.
+- Replaced `Withdraw to Bank` with the exact requested label; added unique `data-testid="recruit-payout-bank-button"`.
+- Preserved styling and existing illustrative behavior. The payout card remains MOCKED display data, not an actual payout action.
+- Verified the external-preview Become a Guard page at 1920×800 with browser assertions and a screenshot: new label visible, old label absent.
+- No backend, form, authentication, credential or dependency changes. No remaining work for this label edit; existing backlog unchanged.
+- Optional enhancement: a small completed-payment checkmark beside the deposit label.
+
+## Completed 2026-09-08 — Remove header login buttons
+- Removed the top-right desktop Log in button and its mobile-menu equivalent from shared `Header.jsx`, plus the unused LogIn icon import.
+- Preserved Google Play Download App links, all navigation items and the existing informational `/login` route. No authentication implementation was changed.
+- Browser verification passed: desktop header contains no login control; mobile menu contains no login control; Download App remains visible/correctly linked; mobile About navigation works and closes the menu.
+- Captured a desktop screenshot of the updated header. No remaining work for this request; prior backlog unchanged.
+- Suggested enhancement remains measuring download CTA clicks; no analytics was added.
 
 ## Known limitations and placeholders
 - iOS is intentionally unavailable, not a mocked download integration.
