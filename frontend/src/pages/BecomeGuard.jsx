@@ -36,8 +36,8 @@ const ELIGIBILITY = [
   },
   {
     icon: Award,
-    title: "PSARA-Trained",
-    desc: "Valid PSARA certificate from a recognised agency.",
+    title: "Lady Bodyguard",
+    desc: "Certified from a recognised agency",
   },
   {
     icon: BadgeCheck,
@@ -235,8 +235,8 @@ export default function BecomeGuard() {
               <div className="w-12 h-12 rounded-lg bg-[#D9A93D]/10 border border-[#D9A93D]/20 flex items-center justify-center">
                 <e.icon className="w-5 h-5 text-[#D9A93D]" strokeWidth={1.6} />
               </div>
-              <h3 className="mt-5 font-display text-lg text-white">{e.title}</h3>
-              <p className="mt-2 text-sm text-[#A0A0A5] leading-relaxed">
+              <h3 data-testid={`eligibility-title-${i + 1}`} className="mt-5 font-display text-lg text-white">{e.title}</h3>
+              <p data-testid={`eligibility-description-${i + 1}`} className="mt-2 text-sm text-[#A0A0A5] leading-relaxed">
                 {e.desc}
               </p>
             </div>

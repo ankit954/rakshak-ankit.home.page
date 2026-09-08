@@ -79,6 +79,14 @@ Implemented:
 - Captured a desktop screenshot of the updated header. No remaining work for this request; prior backlog unchanged.
 - Suggested enhancement remains measuring download CTA clicks; no analytics was added.
 
+## Completed 2026-09-08 — Lady Bodyguard eligibility copy
+- Updated the third Become a Guard eligibility card from `PSARA-Trained` to `Lady Bodyguard` and its description to exactly `Certified from a recognised agency`.
+- Changed the individual ELIGIBILITY data entry rather than hardcoding the shared mapped heading/description, preserving the other three categories.
+- Added unique numbered test IDs to eligibility headings and descriptions; styling, icons and document requirements remain unchanged.
+- Browser verification passed: exact requested text, unchanged other categories, mobile visibility/no horizontal overflow at 375px, and desktop screenshot at 1920×800.
+- No backend, auth, integration or credential changes; no pending work for this visual edit. Existing roadmap remains unchanged.
+- Optional enhancement: a brief certification FAQ could clarify eligibility for applicants.
+
 ## Known limitations and placeholders
 - iOS is intentionally unavailable, not a mocked download integration.
 - Existing social links are placeholders; guard/booking visuals are illustrative, not live app data.
