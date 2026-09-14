@@ -52,13 +52,13 @@ export default function Login() {
           <div className="mt-9 flex justify-center">
             <DownloadButtons testIdPrefix="login-download" />
           </div>
-          <p className="mt-3 text-xs text-[#A0A0A5]">
-            Apps coming soon · Be first in line on launch day
+          <p data-testid="login-app-availability" className="mt-3 text-xs text-[#A0A0A5]">
+            Now on Google Play · iOS coming soon
           </p>
 
           <div className="mt-10 max-w-xl mx-auto">
-            <p className="text-xs uppercase tracking-[0.2em] text-[#D9A93D] mb-3">
-              Notify me on launch
+            <p data-testid="login-updates-heading" className="text-xs uppercase tracking-[0.2em] text-[#D9A93D] mb-3">
+              Get launch updates &amp; offers
             </p>
             <WaitlistForm
               source="login"

@@ -25,7 +25,7 @@ const GROUPS = [
     items: [
       {
         q: "How do I book a RAKSHAK guard?",
-        a: "Download the RAKSHAK app from Google Play or the App Store (releasing soon), sign in with your mobile number, choose a guard category, set the date, time and location, review the fare and confirm payment. A verified guard is assigned instantly for on-demand bookings; scheduled bookings show you the assigned guard up to 24 hours in advance.",
+        a: "Download the RAKSHAK app from Google Play (iOS coming soon), sign in with your mobile number, choose a guard category, set the date, time and location, review the fare and confirm payment. A verified guard is assigned instantly for on-demand bookings; scheduled bookings show you the assigned guard up to 24 hours in advance.",
       },
       {
         q: "Do I need to log in on the website to book?",

@@ -36,8 +36,8 @@ const ELIGIBILITY = [
   },
   {
     icon: Award,
-    title: "PSARA-Trained",
-    desc: "Valid PSARA certificate from a recognised agency.",
+    title: "Lady Bodyguard",
+    desc: "Certified from a recognised agency",
   },
   {
     icon: BadgeCheck,
@@ -90,7 +90,7 @@ const JOIN_STEPS = [
   {
     icon: Smartphone,
     title: "Download the app",
-    desc: "Get RAKSHAK Pro from Play Store / App Store (coming soon).",
+    desc: "Get RAKSHAK from Google Play. iOS coming soon.",
   },
   {
     icon: UserPlus,
@@ -151,8 +151,8 @@ export default function BecomeGuard() {
             </p>
             <div className="mt-9">
               <DownloadButtons testIdPrefix="recruit-hero-download" />
-              <p className="mt-3 text-xs text-[#A0A0A5]">
-                RAKSHAK Pro app for guards — Coming Soon.
+              <p data-testid="recruit-app-availability" className="mt-3 text-xs text-[#A0A0A5]">
+                Now on Google Play · iOS coming soon
               </p>
             </div>
             <div className="mt-10 grid grid-cols-3 max-w-md gap-4">
@@ -209,8 +209,8 @@ export default function BecomeGuard() {
                     </div>
                   ))}
                 </div>
-                <button className="mt-6 w-full btn-gold rounded-lg py-2.5 text-sm">
-                  Withdraw to Bank
+                <button data-testid="recruit-payout-bank-button" className="mt-6 w-full btn-gold rounded-lg py-2.5 text-sm">
+                  Deposited In Bank
                 </button>
               </div>
             </div>
@@ -235,8 +235,8 @@ export default function BecomeGuard() {
               <div className="w-12 h-12 rounded-lg bg-[#D9A93D]/10 border border-[#D9A93D]/20 flex items-center justify-center">
                 <e.icon className="w-5 h-5 text-[#D9A93D]" strokeWidth={1.6} />
               </div>
-              <h3 className="mt-5 font-display text-lg text-white">{e.title}</h3>
-              <p className="mt-2 text-sm text-[#A0A0A5] leading-relaxed">
+              <h3 data-testid={`eligibility-title-${i + 1}`} className="mt-5 font-display text-lg text-white">{e.title}</h3>
+              <p data-testid={`eligibility-description-${i + 1}`} className="mt-2 text-sm text-[#A0A0A5] leading-relaxed">
                 {e.desc}
               </p>
             </div>
@@ -383,7 +383,7 @@ export default function BecomeGuard() {
             <span className="gold-text">The path shouldn&apos;t be.</span>
           </h2>
           <p className="mt-5 text-base md:text-lg text-[#A0A0A5] max-w-2xl mx-auto">
-            Download RAKSHAK Pro. Submit your docs. Start earning the moment
+            Download RAKSHAK. Submit your docs. Start earning the moment
             we verify.
           </p>
           <div className="mt-9 flex justify-center">

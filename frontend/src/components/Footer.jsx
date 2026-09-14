@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Mail, MapPin, Phone, Instagram, Twitter, Linkedin } from "lucide-react";
+import { Mail, MapPin, Phone, Instagram, Twitter, Linkedin, Download } from "lucide-react";
 import Logo from "@/components/Logo";
 import { COMPANY, formatFullAddress } from "@/config/company";
+import { PLAY_STORE_URL } from "@/config/appLinks";
 
 const QUICK_LINKS = [
   { to: "/", label: "Home", testId: "footer-link-home" },
@@ -90,6 +91,17 @@ export default function Footer() {
                 </Link>
               </li>
             ))}
+            <li>
+              <a
+                href={PLAY_STORE_URL}
+                target="_blank"
+                rel="noopener"
+                data-testid="footer-download-cta"
+                className="inline-flex items-center gap-2 text-[#D9A93D] hover:text-[#E8C366] transition-colors"
+              >
+                <Download className="w-4 h-4" /> Download App
+              </a>
+            </li>
           </ul>
         </div>
 
