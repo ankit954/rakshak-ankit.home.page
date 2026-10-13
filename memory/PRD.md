@@ -18,14 +18,14 @@ Build a public marketing website for RAKSHAK with no web login, a premium dark-a
 - `/app/frontend/src/config/appLinks.js`: shared environment-based store URLs for badges, desktop/mobile header and footer CTAs.
 - `/app/frontend/src/config/company.js`: centralized company/contact details used by informational and policy pages.
 - `/app/frontend/src/components/WaitlistForm.jsx`: email + city capture, role/source attribution, validation and feedback; unchanged by the Android release update.
-- `/app/backend/server.py`: FastAPI public `/api/contact`, `/api/waitlist`, `/api/health` endpoints and legacy admin wiring.
-- `/app/backend/auth.py`, `/app/backend/admin_modules.py`: legacy backend admin functionality remains but has no frontend admin UI. Removal is a separate refactoring task.
+- `backend/server.py`: FastAPI public `/api/contact`, `/api/waitlist`, `/api/health` endpoints only.
+- The legacy backend admin (`auth.py`, `admin_modules.py`) was removed on 2026-10-12; admin work happens in the RAKSHAK app's own admin console.
 - MongoDB Atlas uses protected `MONGO_URL` and `DB_NAME` values in backend `.env`; forms write to contacts/waitlist collections. Do not change credentials, DB name or collections for UI work.
-- Supervisor-managed frontend on 3000, backend on 8001. Public API requests use the configured `REACT_APP_BACKEND_URL` and `/api` prefix.
+- Production: nginx serves the built frontend for therakshak.in and forwards `/api/` to the backend. Public API requests use `REACT_APP_BACKEND_URL` (empty = same origin) and the `/api` prefix, via `src/config/api.js`.
 
 ## Environment configuration
-- `REACT_APP_BACKEND_URL`: use the current frontend `.env` URL for preview tests; do not reuse old handoff URLs.
-- `REACT_APP_PLAY_STORE_URL`: set to `https://play.google.com/store/apps/details?id=com.therssoftware.therakshak`. Required; shared configuration fails fast if missing.
+- `REACT_APP_BACKEND_URL`: optional; empty means same origin.
+- `REACT_APP_PLAY_STORE_URL`: optional; defaults to `https://play.google.com/store/apps/details?id=com.therssoftware.therakshak`.
 - `REACT_APP_APP_STORE_URL`: intentionally empty because iOS is unreleased. Empty means a non-interactive SOON badge.
 - Existing backend and frontend configuration keys are preserved. No new dependencies or authentication credentials were introduced in this update.
 
@@ -103,9 +103,9 @@ Implemented:
 - Enable and test the App Store URL only once the iOS app is released and the user supplies its listing.
 
 ### P2 / future
-- Replace Terms `[LEGAL REVIEW: ...]` jurisdiction and liability-cap placeholders once the user's lawyer provides approved wording; do not invent final legal terms.
-- Remove orphaned backend admin routes/auth only as a separately approved refactor, preserving mobile-app compatibility.
-- Supply real social-profile URLs instead of placeholder links.
+- Terms placeholders were replaced on 2026-10-12 with the in-app Terms wording (no liability cap, no arbitration, courts at the registered office). Have a lawyer confirm.
+- Done 2026-10-12: orphaned backend admin routes/auth removed.
+- Fill in `COMPANY.social` in `src/config/company.js`; footer icons stay hidden until a URL is set.
 - Any broader motion/art-direction refresh remains separate from this focused download update.
 
 ### Suggested enhancement

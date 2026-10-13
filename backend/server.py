@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter, HTTPException, Header, Depends, Request, Response
+from fastapi import FastAPI, APIRouter, HTTPException
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -6,7 +6,7 @@ import os
 import logging
 from pathlib import Path
 from pydantic import BaseModel, Field, ConfigDict, EmailStr
-from typing import List, Optional
+from typing import Optional
 import uuid
 from datetime import datetime, timezone
 
@@ -14,7 +14,6 @@ from datetime import datetime, timezone
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
-# Configure logging EARLY so all modules can log
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
@@ -26,41 +25,10 @@ mongo_url = os.environ['MONGO_URL']
 client = AsyncIOMotorClient(mongo_url)
 db = client[os.environ['DB_NAME']]
 
-
-def get_db():
-    return db
-
-
-# Local imports (after env + db are ready)
-from auth import (  # noqa: E402
-    AdminLoginIn,
-    AdminLoginOut,
-    AdminPublic,
-    COOKIE_NAME,
-    login_endpoint,
-    logout_endpoint,
-    make_require_admin,
-    seed_admin,
-)
-from admin_modules import make_router as make_admin_modules_router  # noqa: E402
-
-require_admin = make_require_admin(get_db)
-
 app = FastAPI(title="RAKSHAK API")
 
 # ---------------- Public API ----------------
 api_router = APIRouter(prefix="/api")
-
-
-class StatusCheck(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    client_name: str
-    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-
-
-class StatusCheckCreate(BaseModel):
-    client_name: str
 
 
 class ContactCreate(BaseModel):
@@ -113,24 +81,6 @@ async def health():
         return {"ok": False, "db": "unreachable", "error": type(exc).__name__}
 
 
-@api_router.post("/status", response_model=StatusCheck)
-async def create_status_check(payload: StatusCheckCreate):
-    obj = StatusCheck(**payload.model_dump())
-    doc = obj.model_dump()
-    doc['timestamp'] = doc['timestamp'].isoformat()
-    await db.status_checks.insert_one(doc)
-    return obj
-
-
-@api_router.get("/status", response_model=List[StatusCheck])
-async def get_status_checks():
-    items = await db.status_checks.find({}, {"_id": 0}).to_list(1000)
-    for it in items:
-        if isinstance(it.get('timestamp'), str):
-            it['timestamp'] = datetime.fromisoformat(it['timestamp'])
-    return items
-
-
 @api_router.post("/contact", response_model=ContactSubmission)
 async def create_contact(payload: ContactCreate):
     submission = ContactSubmission(**payload.model_dump())
@@ -168,60 +118,19 @@ async def create_waitlist(payload: WaitlistCreate):
     return entry
 
 
-# ---------------- Admin auth ----------------
-admin_auth_router = APIRouter(prefix="/api/admin/auth", tags=["admin-auth"])
-
-
-@admin_auth_router.post("/login", response_model=AdminLoginOut)
-async def admin_login(payload: AdminLoginIn, request: Request, response: Response):
-    return await login_endpoint(db, payload, request, response)
-
-
-@admin_auth_router.post("/logout")
-async def admin_logout(response: Response):
-    return await logout_endpoint(response)
-
-
-@admin_auth_router.get("/me", response_model=AdminPublic)
-async def admin_me(admin: dict = Depends(require_admin)):
-    return AdminPublic(**admin)
-
-
-# ---------------- Mount everything ----------------
 app.include_router(api_router)
-app.include_router(admin_auth_router)
-app.include_router(make_admin_modules_router(get_db, require_admin))
 
 
 # ---------------- CORS ----------------
-origins_raw = os.environ.get('CORS_ORIGINS', '*')
-allow_origins = [o.strip() for o in origins_raw.split(',') if o.strip()]
-allow_credentials = True
-if allow_origins == ['*']:
-    # browsers reject credentials + wildcard; downgrade gracefully
-    allow_credentials = False
+# Public, cookie-less endpoints only, so credentials are never allowed.
+origins_raw = os.environ.get('CORS_ORIGINS', 'https://therakshak.in,https://www.therakshak.in')
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=allow_origins,
-    allow_credentials=allow_credentials,
-    allow_methods=["*"],
-    allow_headers=["*"],
-    allow_origin_regex=r"https://.*\.therakshak\.in|https://.*\.preview\.emergentagent\.com|https://.*\.emergent\.host",
+    allow_origins=[o.strip() for o in origins_raw.split(',') if o.strip()],
+    allow_credentials=False,
+    allow_methods=["GET", "POST"],
+    allow_headers=["Content-Type"],
 )
-
-
-@app.on_event("startup")
-async def on_startup():
-    # Run admin seeding in the background so Atlas reachability does NOT
-    # block API readiness. Health/login endpoints will surface the DB
-    # status when called.
-    import asyncio
-    async def _bg():
-        try:
-            await seed_admin(db)
-        except Exception as exc:
-            logger.warning("background seed failed: %s", exc)
-    asyncio.create_task(_bg())
 
 
 @app.on_event("shutdown")

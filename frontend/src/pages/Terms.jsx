@@ -2,11 +2,10 @@ import React from "react";
 import LegalPage from "@/components/LegalPage";
 import { COMPANY } from "@/config/company";
 
-// NOTE FOR LEGAL REVIEW:
 // This wording is drafted to be careful and defensible under Indian consumer
 // law. It deliberately avoids absolute "not responsible for anything"
-// language. Items marked [LEGAL REVIEW: ...] are placeholders for a lawyer
-// to finalise (jurisdiction, limitation amounts, arbitration specifics).
+// language. Disputes and jurisdiction follow the in-app Terms of Service
+// (no liability cap, no arbitration; courts at the registered office).
 
 const sections = [
   {
@@ -81,7 +80,7 @@ const sections = [
     body: [
       "The Services are provided on an \u201cas-is\u201d and \u201cas-available\u201d basis. While we work hard to verify Guards and enforce service quality, we do not warrant that the Services will be uninterrupted, error-free or free from every risk inherent in on-ground security services.",
       "As RAKSHAK acts as a facilitator connecting customers and independent Guards, RAKSHAK is not liable for the independent acts, omissions or conduct of Guards or Customers beyond RAKSHAK's role as a facilitator \u2014 except to the extent such liability arises from RAKSHAK's own negligence or wilful default, or cannot be excluded under applicable law.",
-      `To the maximum extent permitted by applicable law, RAKSHAK's aggregate liability arising out of or relating to the Services is limited to [LEGAL REVIEW: insert agreed limitation \u2014 e.g. the total amount paid by the customer for the specific booking giving rise to the claim, or a capped sum]. RAKSHAK is not liable for indirect, incidental, special, punitive or consequential damages, including loss of profits, data or goodwill.`,
+      "To the maximum extent permitted by applicable law, RAKSHAK is not liable for indirect, incidental, special, punitive or consequential damages, including loss of profits, data or goodwill, or for criminal acts of third parties, accidents or events beyond our reasonable control.",
       "Nothing in these Terms excludes or limits any liability that cannot lawfully be excluded or limited under the laws of India, including under the Consumer Protection Act, 2019. This section is intended to operate only to the extent permitted by applicable law.",
     ],
   },
@@ -108,12 +107,12 @@ const sections = [
     title: "15. Grievance redressal & dispute resolution",
     body: [
       "We aim to resolve every issue through good-faith conversation. Please contact our Grievance Officer first (see the Contact section).",
-      "[LEGAL REVIEW: confirm dispute-resolution mechanism.] Any dispute that cannot be resolved amicably may be referred to arbitration by a sole arbitrator under the Arbitration and Conciliation Act, 1996. The seat and venue of arbitration shall be [LEGAL REVIEW: insert seat/venue, e.g. New Delhi]. The language of arbitration shall be English. Nothing in this clause prevents a consumer from pursuing remedies available under the Consumer Protection Act, 2019.",
+      "Any dispute that cannot be resolved amicably shall be decided by the courts set out in the Governing law & jurisdiction section below. Nothing in this clause prevents a consumer from pursuing remedies available under the Consumer Protection Act, 2019.",
     ],
   },
   {
     title: "16. Governing law & jurisdiction",
-    body: `These Terms are governed by, and construed in accordance with, the laws of the Republic of India. Subject to the clause above and to any non-excludable consumer rights, the competent courts at [LEGAL REVIEW: insert jurisdiction, e.g. New Delhi] shall have jurisdiction.`,
+    body: `These Terms are governed by, and construed in accordance with, the laws of the Republic of India. Subject to the clause above and to any non-excludable consumer rights, the competent courts at the place of RAKSHAK's registered office (${COMPANY.registeredAddress.city}, ${COMPANY.registeredAddress.state}) shall have jurisdiction.`,
   },
   {
     title: "17. Intellectual property",

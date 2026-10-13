@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { API } from "@/config/api";
 import { toast } from "sonner";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
-
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
 
 const CITIES = [
   "Delhi",

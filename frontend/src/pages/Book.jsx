@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from "react";
 import axios from "axios";
+import { API } from "@/config/api";
 import { toast } from "sonner";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -18,9 +19,6 @@ import {
   Wallet,
   Smartphone,
 } from "lucide-react";
-
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
 
 const GUARD_TYPES = [
   {

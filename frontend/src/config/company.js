@@ -42,6 +42,13 @@ export const COMPANY = {
   // Web
   site: "https://therakshak.in",
 
+  // Social profiles. Leave a value empty to hide its footer icon.
+  social: {
+    instagram: "",
+    twitter: "",
+    linkedin: "",
+  },
+
   // Effective date of the latest legal-page revision
   policiesUpdated: "December 2025",
 };

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { API } from "@/config/api";
 import { toast } from "sonner";
 import {
   Mail,
@@ -15,9 +16,6 @@ import {
 } from "lucide-react";
 import Section from "@/components/Section";
 import { COMPANY, formatFullAddress } from "@/config/company";
-
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
 
 const TOPICS = [
   { value: "booking", label: "Book a guard / general enquiry" },

@@ -1,42 +1,70 @@
-"""Backend tests for RAKSHAK marketing site API.
+"""Tests for the RAKSHAK marketing site API.
 
-Covers:
-- root health
-- POST /api/contact (valid + invalid payload validation)
-NOTE: Previously this file tested GET /api/contact (now removed — admin-only).
-Listing is now covered in test_admin_api.py via /api/admin/contacts.
+Runs fully in-process against an in-memory stand-in for MongoDB, so it never
+touches a real database or a deployed server.
 """
 import os
 import uuid
+
 import pytest
-import requests
-from pathlib import Path
-from dotenv import load_dotenv
 
-load_dotenv(Path(__file__).resolve().parents[1] / ".env")
-FRONTEND_ENV = Path(__file__).resolve().parents[2] / "frontend" / ".env"
-load_dotenv(FRONTEND_ENV)
+os.environ.setdefault("MONGO_URL", "mongodb://127.0.0.1:27017")
+os.environ.setdefault("DB_NAME", "rakshak_landing_test")
 
-BASE_URL = os.environ["REACT_APP_BACKEND_URL"].rstrip("/")
-API = f"{BASE_URL}/api"
+from fastapi.testclient import TestClient  # noqa: E402
+
+import server  # noqa: E402
 
 
-@pytest.fixture(scope="module")
-def client():
-    s = requests.Session()
-    s.headers.update({"Content-Type": "application/json"})
-    return s
+class FakeCollection:
+    def __init__(self):
+        self.docs = []
+
+    async def insert_one(self, doc):
+        self.docs.append(dict(doc))
+
+    async def find_one(self, query, projection=None):
+        for d in self.docs:
+            if all(d.get(k) == v for k, v in query.items()):
+                return dict(d)
+        return None
+
+
+class FakeDB:
+    def __init__(self):
+        self.contact_submissions = FakeCollection()
+        self.waitlist_signups = FakeCollection()
+
+    async def command(self, name):
+        return {"ok": 1}
+
+
+@pytest.fixture()
+def fake_db(monkeypatch):
+    fake = FakeDB()
+    monkeypatch.setattr(server, "db", fake)
+    return fake
+
+
+@pytest.fixture()
+def client(fake_db):
+    return TestClient(server.app)
 
 
 class TestHealth:
     def test_root(self, client):
-        r = client.get(f"{API}/")
+        r = client.get("/api/")
         assert r.status_code == 200
         assert r.json().get("message") == "RAKSHAK API"
 
+    def test_health(self, client):
+        r = client.get("/api/health")
+        assert r.status_code == 200
+        assert r.json() == {"ok": True, "db": "connected"}
+
 
 class TestContact:
-    def test_create_contact_success(self, client):
+    def test_create_contact_success(self, client, fake_db):
         unique = uuid.uuid4().hex[:8]
         payload = {
             "name": f"TEST_User_{unique}",
@@ -45,7 +73,7 @@ class TestContact:
             "topic": "booking",
             "message": "Hello, this is an automated test submission.",
         }
-        r = client.post(f"{API}/contact", json=payload)
+        r = client.post("/api/contact", json=payload)
         assert r.status_code == 200, r.text
         body = r.json()
         assert body["name"] == payload["name"]
@@ -53,21 +81,35 @@ class TestContact:
         assert isinstance(body.get("id"), str) and len(body["id"]) > 0
         assert "created_at" in body
         assert "_id" not in body
+        assert len(fake_db.contact_submissions.docs) == 1
 
-    def test_create_contact_invalid_email_422(self, client):
+    def test_create_contact_invalid_email_422(self, client, fake_db):
         payload = {"name": "TEST_Bad", "email": "not-an-email", "message": "hi"}
-        r = client.post(f"{API}/contact", json=payload)
+        r = client.post("/api/contact", json=payload)
+        assert r.status_code == 422
+        assert fake_db.contact_submissions.docs == []
+
+    def test_create_contact_missing_message_422(self, client):
+        r = client.post("/api/contact", json={"name": "TEST", "email": "a@example.com"})
         assert r.status_code == 422
 
-    def test_create_contact_missing_required_422(self, client):
-        r = client.post(f"{API}/contact", json={"email": "a@b.com"})
+
+class TestWaitlist:
+    def test_signup_and_duplicate_returns_same_entry(self, client, fake_db):
+        payload = {"email": "lead@example.com", "city": "Noida", "role": "customer", "source": "hero"}
+        first = client.post("/api/waitlist", json=payload)
+        assert first.status_code == 200, first.text
+        second = client.post("/api/waitlist", json=payload)
+        assert second.status_code == 200
+        assert second.json()["id"] == first.json()["id"]
+        assert len(fake_db.waitlist_signups.docs) == 1
+
+    def test_invalid_email_422(self, client):
+        r = client.post("/api/waitlist", json={"email": "nope"})
         assert r.status_code == 422
 
-    def test_legacy_public_get_contact_removed(self, client):
-        """GET /api/contact must NOT be exposed publicly anymore."""
-        r = client.get(f"{API}/contact")
-        # FastAPI returns 405 (method not allowed) when route doesn't exist for that verb,
-        # or 404 if the path no longer exists.
-        assert r.status_code in (404, 405), (
-            f"Public GET /api/contact should be removed but got {r.status_code}"
-        )
+
+class TestNoAdminSurface:
+    def test_admin_routes_are_gone(self, client):
+        assert client.get("/api/admin/users").status_code == 404
+        assert client.post("/api/admin/auth/login", json={}).status_code == 404

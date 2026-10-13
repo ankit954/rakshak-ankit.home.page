@@ -30,6 +30,12 @@ const LEGAL_LINKS = [
   { to: "/dpdp", label: "DPDP Consent Notice", testId: "footer-link-dpdp" },
 ];
 
+const SOCIAL_LINKS = [
+  { key: "instagram", label: "Instagram", Icon: Instagram, href: COMPANY.social.instagram },
+  { key: "twitter", label: "Twitter", Icon: Twitter, href: COMPANY.social.twitter },
+  { key: "linkedin", label: "LinkedIn", Icon: Linkedin, href: COMPANY.social.linkedin },
+].filter((s) => s.href);
+
 export default function Footer() {
   const year = new Date().getFullYear();
   return (
@@ -45,35 +51,23 @@ export default function Footer() {
             Police-verified, trained protection — on demand. Built in India for
             HNI clients, women&apos;s safety, business, events and travel.
           </p>
-          <div className="mt-6 flex items-center gap-3">
-            <a
-              href="#"
-              onClick={(e) => e.preventDefault()}
-              data-testid="footer-social-instagram"
-              className="w-9 h-9 rounded-full border border-[#D9A93D]/20 inline-flex items-center justify-center text-white/80 hover:border-[#D9A93D] hover:text-[#D9A93D] transition"
-              aria-label="Instagram"
-            >
-              <Instagram className="w-4 h-4" />
-            </a>
-            <a
-              href="#"
-              onClick={(e) => e.preventDefault()}
-              data-testid="footer-social-twitter"
-              className="w-9 h-9 rounded-full border border-[#D9A93D]/20 inline-flex items-center justify-center text-white/80 hover:border-[#D9A93D] hover:text-[#D9A93D] transition"
-              aria-label="Twitter"
-            >
-              <Twitter className="w-4 h-4" />
-            </a>
-            <a
-              href="#"
-              onClick={(e) => e.preventDefault()}
-              data-testid="footer-social-linkedin"
-              className="w-9 h-9 rounded-full border border-[#D9A93D]/20 inline-flex items-center justify-center text-white/80 hover:border-[#D9A93D] hover:text-[#D9A93D] transition"
-              aria-label="LinkedIn"
-            >
-              <Linkedin className="w-4 h-4" />
-            </a>
-          </div>
+          {SOCIAL_LINKS.length > 0 && (
+            <div className="mt-6 flex items-center gap-3">
+              {SOCIAL_LINKS.map(({ key, label, Icon, href }) => (
+                <a
+                  key={key}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-testid={`footer-social-${key}`}
+                  className="w-9 h-9 rounded-full border border-[#D9A93D]/20 inline-flex items-center justify-center text-white/80 hover:border-[#D9A93D] hover:text-[#D9A93D] transition"
+                  aria-label={label}
+                >
+                  <Icon className="w-4 h-4" />
+                </a>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Quick links */}
