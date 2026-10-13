@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { API } from "@/config/api";
 import { toast } from "sonner";
@@ -17,7 +17,8 @@ import {
 import Section from "@/components/Section";
 import { COMPANY, formatFullAddress } from "@/config/company";
 
-const TOPICS = [
+// Used until the live list loads (edited in Admin → Support → Tickets → Website topics).
+const FALLBACK_TOPICS = [
   { value: "booking", label: "Book a guard / general enquiry" },
   { value: "guard", label: "Become a guard" },
   { value: "enterprise", label: "Enterprise / corporate" },
@@ -32,10 +33,27 @@ export default function Contact() {
     name: "",
     email: "",
     phone: "",
-    topic: "booking",
+    topic: FALLBACK_TOPICS[0].value,
     message: "",
   });
   const [submitting, setSubmitting] = useState(false);
+  const [topics, setTopics] = useState(FALLBACK_TOPICS);
+
+  useEffect(() => {
+    let alive = true;
+    axios
+      .get(`${API}/contact-topics`)
+      .then((r) => {
+        const live = (r.data?.items || []).map((t) => ({ value: t.key, label: t.label }));
+        if (!alive || !live.length) return;
+        setTopics(live);
+        setForm((f) => (live.some((t) => t.value === f.topic) ? f : { ...f, topic: live[0].value }));
+      })
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, []);
 
   const update = (k, v) => setForm((f) => ({ ...f, [k]: v }));
 
@@ -53,7 +71,7 @@ export default function Contact() {
         name: "",
         email: "",
         phone: "",
-        topic: "booking",
+        topic: topics[0].value,
         message: "",
       });
     } catch {
@@ -233,7 +251,7 @@ export default function Contact() {
                     onChange={(e) => update("topic", e.target.value)}
                     className="mt-2 w-full rounded-lg px-4 py-3 text-sm bg-[#0B0B0D]"
                   >
-                    {TOPICS.map((t) => (
+                    {topics.map((t) => (
                       <option key={t.value} value={t.value}>
                         {t.label}
                       </option>
