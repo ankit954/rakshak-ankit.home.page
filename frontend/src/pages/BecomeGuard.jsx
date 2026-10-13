@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import Section from "@/components/Section";
 import DownloadButtons from "@/components/DownloadButtons";
+import GuardEarnings from "@/components/GuardEarnings";
 
 const ELIGIBILITY = [
   {
@@ -53,6 +54,14 @@ const DOCS = [
   { icon: ShieldCheck, label: "Service record / discharge papers" },
 ];
 
+// Illustration only: the live weekly figures are in <GuardEarnings />.
+const EXAMPLE_WEEK = [
+  { l: "Mon · Bouncer · Wedding", v: 2800 },
+  { l: "Wed · Guard+Driver · HNI", v: 3400 },
+  { l: "Fri · Lady BG · Travel", v: 2100 },
+];
+const inr = (n) => `₹${n.toLocaleString("en-IN")}`;
+
 const BENEFITS = [
   {
     icon: Banknote,
@@ -77,7 +86,7 @@ const BENEFITS = [
   {
     icon: Wallet,
     title: "Wallet + Earnings Tracking",
-    desc: "Live earnings, tips, deductions and bank transfers — fully auditable, all in the app.",
+    desc: "Live earnings, deductions and bank transfers — fully auditable, all in the app.",
   },
   {
     icon: Users,
@@ -157,9 +166,9 @@ export default function BecomeGuard() {
             </div>
             <div className="mt-10 grid grid-cols-3 max-w-md gap-4">
               <div data-testid="stat-1">
-                <p className="font-display text-3xl text-white">₹40k+</p>
+                <p className="font-display text-3xl text-white">Weekly</p>
                 <p className="text-xs text-[#A0A0A5] mt-1">
-                  Avg. top-quartile monthly earnings
+                  Paid every week
                 </p>
               </div>
               <div data-testid="stat-2">
@@ -184,28 +193,23 @@ export default function BecomeGuard() {
               <div className="relative card-rk rounded-2xl p-6">
                 <div className="flex items-center justify-between">
                   <p className="label-eyebrow">This week</p>
-                  <span className="text-xs text-[#D9A93D]">Live</span>
+                  <span className="text-xs text-[#D9A93D]">Example</span>
                 </div>
                 <p className="mt-3 font-display text-4xl text-white">
-                  ₹14,250
+                  {inr(EXAMPLE_WEEK.reduce((sum, row) => sum + row.v, 0))}
                 </p>
                 <p className="text-sm text-[#A0A0A5]">
-                  6 shifts · 2 tips · 1 referral bonus
+                  {EXAMPLE_WEEK.length} shifts
                 </p>
                 <div className="mt-5 h-px gold-rule" />
                 <div className="mt-5 space-y-3">
-                  {[
-                    { l: "Mon · Bouncer · Wedding", v: "₹2,800" },
-                    { l: "Wed · Guard+Driver · HNI", v: "₹3,400" },
-                    { l: "Fri · Lady BG · Travel", v: "₹2,100" },
-                    { l: "Referral bonus", v: "₹500" },
-                  ].map((row) => (
+                  {EXAMPLE_WEEK.map((row) => (
                     <div
                       key={row.l}
                       className="flex items-center justify-between text-sm"
                     >
                       <span className="text-[#C7C7CC]">{row.l}</span>
-                      <span className="text-white font-medium">{row.v}</span>
+                      <span className="text-white font-medium">{inr(row.v)}</span>
                     </div>
                   ))}
                 </div>
@@ -217,6 +221,8 @@ export default function BecomeGuard() {
           </div>
         </div>
       </section>
+
+      <GuardEarnings showJoinButton={false} />
 
       {/* WHO CAN JOIN */}
       <Section

@@ -25,6 +25,7 @@ import {
 import Section from "@/components/Section";
 import DownloadButtons from "@/components/DownloadButtons";
 import WaitlistForm from "@/components/WaitlistForm";
+import GuardEarnings from "@/components/GuardEarnings";
 import {
   Accordion,
   AccordionItem,
@@ -298,6 +299,14 @@ export default function Home() {
                 Assigned Instantly
               </span>
             </div>
+
+            <a
+              href="#guard-earnings"
+              data-testid="hero-guard-earnings-link"
+              className="mt-6 inline-flex items-center gap-2 text-sm text-[#D9A93D] hover:text-[#E8C366]"
+            >
+              Security guard? See how much you can earn <ArrowRight className="w-4 h-4" />
+            </a>
           </div>
 
           {/* Card stack visual */}
@@ -648,25 +657,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Recruit cross-link */}
-      <section className="border-t border-[#D9A93D]/10 bg-[#0E0E11]">
-        <div className="max-w-7xl mx-auto px-5 md:px-10 py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div>
-            <p className="label-eyebrow">For security professionals</p>
-            <h3 className="mt-2 font-display text-2xl text-white">
-              Ex-Army, Ex-Police or PSARA-trained?{" "}
-              <span className="gold-text">Earn with RAKSHAK.</span>
-            </h3>
-          </div>
-          <Link
-            to="/become-a-guard"
-            data-testid="home-recruit-cta"
-            className="btn-ghost-gold rounded-lg px-5 py-3 inline-flex items-center gap-2 text-sm self-start md:self-auto"
-          >
-            Become a Guard <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
-      </section>
+      {/* Guard earnings */}
+      <div className="border-t border-[#D9A93D]/10 bg-[#0E0E11]">
+        <GuardEarnings />
+      </div>
     </>
   );
 }
