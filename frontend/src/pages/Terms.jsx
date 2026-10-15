@@ -141,7 +141,7 @@ export default function Terms() {
     <LegalPage
       testId="terms-page"
       eyebrow="Legal"
-      title="Terms of Service"
+      title="Terms & Conditions"
       updated={COMPANY.policiesUpdated}
       sections={sections}
     />
