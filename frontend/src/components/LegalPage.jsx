@@ -51,10 +51,10 @@ export default function LegalPage({ eyebrow, title, updated, sections = [], test
         <div className="mt-16 pt-8 border-t border-[#D9A93D]/10 text-xs text-[#A0A0A5]">
           Questions? Email{" "}
           <a
-            href="mailto:contactus@therakshak.in"
+            href={`mailto:${COMPANY.supportEmail}`}
             className="text-[#D9A93D] hover:text-[#E8C366]"
           >
-            contactus@therakshak.in
+            {COMPANY.supportEmail}
           </a>
           .
         </div>

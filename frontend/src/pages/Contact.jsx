@@ -304,7 +304,7 @@ export default function Contact() {
                   {
                     icon: ShieldCheck,
                     title: "Bookings & support",
-                    desc: "Pre-launch: write to " + COMPANY.supportEmail + ".",
+                    desc: "Write to " + COMPANY.supportEmail + ".",
                   },
                   {
                     icon: Building2,

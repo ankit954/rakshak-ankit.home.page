@@ -50,6 +50,8 @@ function App() {
         <Route path="/privacy" element={wrap(Privacy)} />
         <Route path="/terms" element={wrap(Terms)} />
         <Route path="/refund-policy" element={wrap(Refund)} />
+        <Route path="/cancellation-policy" element={wrap(Refund)} />
+        <Route path="/shipping-policy" element={wrap(ServiceDelivery)} />
         <Route path="/service-delivery" element={wrap(ServiceDelivery)} />
         <Route path="/dpdp" element={wrap(DPDP)} />
         <Route path="/login" element={wrap(Login)} />

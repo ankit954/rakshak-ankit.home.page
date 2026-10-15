@@ -4,8 +4,8 @@ import { COMPANY, formatFullAddress } from "@/config/company";
 
 const sections = [
   {
-    title: "1. Purpose",
-    body: `This Service Delivery Policy explains how ${COMPANY.brandName} ("RAKSHAK") facilitates the delivery of personal-security services booked through the RAKSHAK mobile application. Because RAKSHAK is a service — not a physical good — this policy is the equivalent of a shipping / delivery policy for on-ground service delivery.`,
+    title: "1. No physical shipping",
+    body: `${COMPANY.brandName} ("RAKSHAK") provides an on-ground personal-security service, not physical goods. Nothing is shipped, couriered or delivered by post, and no shipping charges apply. This Shipping & Delivery Policy explains how the service you book through the RAKSHAK app or website is delivered to you.`,
   },
   {
     title: "2. Platform role",
@@ -36,9 +36,9 @@ const sections = [
   {
     title: "5. Confirmation & assignment",
     body: [
-      "Once payment is successfully processed, the booking is CONFIRMED. You will receive an in-app notification, an SMS and a booking receipt.",
+      "Once the booking is placed (and, for online payments, paid), it is CONFIRMED. You will receive an in-app notification, an SMS and a booking receipt.",
       "For on-demand bookings, a verified Guard is typically assigned within 15 minutes in serviceable areas. For scheduled bookings, the assigned Guard’s profile (name, photo, category, rating) is shown in the app up to 24 hours before the scheduled start.",
-      "If a suitable verified Guard cannot be assigned within the promised window, the booking is auto-cancelled and the full amount is refunded to the original payment source under our Refund & Cancellation Policy.",
+      "If a suitable verified Guard cannot be assigned within the promised window, the booking is auto-cancelled and the full amount is refunded to the original payment source under our Cancellation & Refund Policy.",
     ],
   },
   {
@@ -46,7 +46,7 @@ const sections = [
     body: [
       "The assigned Guard travels to the booked location so as to arrive at or before the scheduled start time. You can track the Guard’s live location on the app map and share a public trip-link with family or friends.",
       "On arrival, the Guard requests a Start OTP that you enter in your app. Only upon successful OTP verification does the shift clock begin — this ensures you are never billed for time before service actually starts.",
-      "For late arrivals attributable to the Guard, please refer to section 4 of the Refund & Cancellation Policy (service-deficiency claims).",
+      "For late arrivals attributable to the Guard, please refer to section 4 of the Cancellation & Refund Policy (problems with the service).",
     ],
   },
   {
@@ -60,7 +60,7 @@ const sections = [
   {
     title: "8. Completion & OTP-verified end",
     body: [
-      "When the shift ends, the Guard requests an End OTP that you enter in your app. This closes the booking, generates a GST invoice, releases any temporary hold on your payment and enables rating.",
+      "When the shift ends, the Guard requests an End OTP that you enter in your app. This closes the booking, generates your receipt and lets you rate the service.",
       "For hourly extensions past the originally booked duration, the customer approves the extension in-app and the incremental fare is charged transparently.",
     ],
   },
@@ -73,15 +73,22 @@ const sections = [
       "• Continuation of service by a replacement Guard where feasible.",
       "• Pro-rata refund of the unused portion of the shift.",
       "• Full refund + a discretionary service credit for material service deficiency.",
-      "All such claims are governed by section 4 of the Refund & Cancellation Policy.",
+      "All such claims are governed by section 4 of the Cancellation & Refund Policy.",
     ],
   },
   {
-    title: "10. Force majeure",
+    title: "10. Exchanges and rescheduling",
+    body: [
+      "Because the service is delivered in person at the booked time, it cannot be exchanged or returned once delivered.",
+      "To change the date, time, place or guard type, cancel the booking in the app and book again. Any cancellation charge follows the Cancellation & Refund Policy. During a shift you can add hours in the app, and the extra amount is shown before you confirm.",
+    ],
+  },
+  {
+    title: "11. Force majeure",
     body: `Where RAKSHAK is unable to deliver service due to events outside its reasonable control — including natural disasters, public unrest, government-imposed restrictions or communication-network failure — bookings are cancelled with a full refund; no consequential damages are payable.`,
   },
   {
-    title: "11. Contact",
+    title: "12. Contact",
     body: [
       `${COMPANY.brandName}`,
       formatFullAddress(),
@@ -96,7 +103,7 @@ export default function ServiceDelivery() {
     <LegalPage
       testId="service-delivery-page"
       eyebrow="Legal"
-      title="Service Delivery Policy"
+      title="Shipping & Delivery Policy"
       updated={COMPANY.policiesUpdated}
       sections={sections}
     />

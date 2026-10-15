@@ -10,7 +10,7 @@ import { COMPANY } from "@/config/company";
 const sections = [
   {
     title: "1. Agreement",
-    body: `These Terms of Service (the "Terms") constitute a legally binding agreement between you and the RAKSHAK brand ("RAKSHAK", "we", "us", "our"), operated by the legal entity identified on our Contact page, governing your access to and use of the RAKSHAK website, mobile applications and all related services (the "Services"). By accessing this website, creating an account, booking a service or otherwise using the Services, you acknowledge that you have read, understood and agree to be bound by these Terms together with our Privacy Policy, Refund & Cancellation Policy and Service Delivery Policy, all of which are published on this website and are accessible to you at any time. If you do not agree, please do not use the Services.`,
+    body: `These Terms of Service (the "Terms") constitute a legally binding agreement between you and the RAKSHAK brand ("RAKSHAK", "we", "us", "our"), operated by the legal entity identified on our Contact page, governing your access to and use of the RAKSHAK website, mobile applications and all related services (the "Services"). By accessing this website, creating an account, booking a service or otherwise using the Services, you acknowledge that you have read, understood and agree to be bound by these Terms together with our Privacy Policy, Cancellation & Refund Policy and Shipping & Delivery Policy, all of which are published on this website and are accessible to you at any time. If you do not agree, please do not use the Services.`,
   },
   {
     title: "2. Eligibility",
@@ -61,7 +61,7 @@ const sections = [
   },
   {
     title: "8. Cancellations & refunds",
-    body: `Cancellations, refunds and chargebacks are governed by our Refund & Cancellation Policy, which forms an integral part of these Terms.`,
+    body: `Cancellations, refunds and chargebacks are governed by our Cancellation & Refund Policy, which forms an integral part of these Terms.`,
   },
   {
     title: "9. Prohibited use",
@@ -71,7 +71,7 @@ const sections = [
     title: "10. Verification, conduct & complaints",
     body: [
       "RAKSHAK verifies Guards \u2014 including police verification and ID / KYC checks \u2014 to a reasonable standard before they are activated on the platform, and re-verifies periodically. While we take these steps in good faith to raise the quality and safety of the network, RAKSHAK does not warrant or guarantee the outcome of any individual booking or the conduct of any individual Guard.",
-      "If you experience any misconduct, deficiency, dispute or grievance, you may report it to RAKSHAK support (see the Contact section) or to our Grievance Officer. Upon receiving a report, RAKSHAK will investigate the matter in good faith, may suspend or remove the Guard concerned, may facilitate an appropriate resolution under our Refund & Cancellation Policy, and will cooperate with lawful authorities where required.",
+      "If you experience any misconduct, deficiency, dispute or grievance, you may report it to RAKSHAK support (see the Contact section) or to our Grievance Officer. Upon receiving a report, RAKSHAK will investigate the matter in good faith, may suspend or remove the Guard concerned, may facilitate an appropriate resolution under our Cancellation & Refund Policy, and will cooperate with lawful authorities where required.",
       "Nothing in this section limits the remedies available to you under the Consumer Protection Act, 2019 or other applicable Indian law.",
     ],
   },
@@ -88,7 +88,7 @@ const sections = [
     title: "12. Assumption of risk & acknowledgement",
     body: [
       "You acknowledge that on-ground personal-security services carry inherent risks that cannot be entirely eliminated by any provider or platform. RAKSHAK takes reasonable steps (verification, training standards, live tracking, SOS) to reduce these risks, but you understand and accept that a booking does not amount to a guarantee of any specific outcome.",
-      "You acknowledge that these Terms, together with our Privacy Policy, Refund & Cancellation Policy, Service Delivery Policy and Pricing, are published and permanently accessible on this website, that you have had the opportunity to read them before using the Services, and that your use of the Services constitutes informed acceptance of them.",
+      "You acknowledge that these Terms, together with our Privacy Policy, Cancellation & Refund Policy, Shipping & Delivery Policy and Pricing, are published and permanently accessible on this website, that you have had the opportunity to read them before using the Services, and that your use of the Services constitutes informed acceptance of them.",
       "You agree to use the Services in good faith and to raise any concern through the grievance and complaints process set out in these Terms before pursuing other remedies.",
     ],
   },

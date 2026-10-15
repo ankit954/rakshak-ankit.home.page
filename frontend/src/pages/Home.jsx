@@ -25,6 +25,7 @@ import {
 import Section from "@/components/Section";
 import DownloadButtons from "@/components/DownloadButtons";
 import WaitlistForm from "@/components/WaitlistForm";
+import { COMPANY } from "@/config/company";
 import GuardEarnings from "@/components/GuardEarnings";
 import {
   Accordion,
@@ -195,7 +196,7 @@ const FAQS = [
   },
   {
     q: "What is your cancellation policy?",
-    a: "Cancel free up to 2 hours before the start time. Cancellations within the 2-hour window are billed at 25% to compensate the assigned guard.",
+    a: `Cancel in the app until the guard arrives. It's free if no guard has been assigned yet, or if you cancel at least ${COMPANY.cancellation.freeHours} hours before the start. After that, ${COMPANY.cancellation.feePercent}% of the amount paid is kept to compensate the guard. The app shows your exact refund before you confirm.`,
   },
   {
     q: "Can I track the guard live?",

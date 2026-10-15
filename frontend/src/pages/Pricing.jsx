@@ -241,7 +241,7 @@ export default function Pricing() {
           location, time-of-day surcharge and applicable GST. RAKSHAK does not
           charge any hidden fees. For refunds and cancellations, see our{" "}
           <Link to="/refund-policy" className="text-[#D9A93D] hover:text-[#E8C366]">
-            Refund &amp; Cancellation Policy
+            Cancellation &amp; Refund Policy
           </Link>
           .
         </div>

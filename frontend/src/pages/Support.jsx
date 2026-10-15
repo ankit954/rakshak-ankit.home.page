@@ -59,11 +59,11 @@ const GROUPS = [
     items: [
       {
         q: "Can I cancel a booking?",
-        a: "Yes. Cancellations more than two (2) hours before the scheduled start are free. Cancellations within the two-hour window are charged 25% of the booking value as a guard-compensation fee. Full details are in our Refund & Cancellation Policy.",
+        a: `Yes, in the app, until the guard arrives. It's free if no guard has been assigned yet, or if you cancel at least ${COMPANY.cancellation.freeHours} hours before the start. After that, ${COMPANY.cancellation.feePercent}% of the amount paid is kept to compensate the guard. The app shows your exact refund before you confirm. Full details are in our Cancellation & Refund Policy.`,
       },
       {
         q: "How long do refunds take?",
-        a: "Refunds are auto-initiated to your original payment source and typically reflect in 5–7 business days depending on your bank. RAKSHAK-wallet refunds are instant.",
+        a: "Refunds are initiated automatically to your original payment method (UPI, card or net banking) and usually reach your account within 5–7 working days, depending on your bank. You can track the refund on the booking in the app.",
       },
     ],
   },

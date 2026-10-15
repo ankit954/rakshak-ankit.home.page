@@ -11,21 +11,21 @@ const QUICK_LINKS = [
   { to: "/pricing", label: "Pricing", testId: "footer-link-pricing" },
   { to: "/become-a-guard", label: "Become a Guard", testId: "footer-link-guard" },
   { to: "/support", label: "Support / Help", testId: "footer-link-support" },
-  { to: "/contact", label: "Contact us", testId: "footer-link-contact" },
+  { to: "/contact", label: "Contact Us", testId: "footer-link-contact" },
 ];
 
 const LEGAL_LINKS = [
-  { to: "/privacy", label: "Privacy Policy", testId: "footer-link-privacy" },
   { to: "/terms", label: "Terms & Conditions", testId: "footer-link-terms" },
+  { to: "/privacy", label: "Privacy Policy", testId: "footer-link-privacy" },
   {
     to: "/refund-policy",
-    label: "Refund & Cancellation",
+    label: "Cancellation & Refund Policy",
     testId: "footer-link-refund",
   },
   {
-    to: "/service-delivery",
-    label: "Service Delivery Policy",
-    testId: "footer-link-service-delivery",
+    to: "/shipping-policy",
+    label: "Shipping & Delivery Policy",
+    testId: "footer-link-shipping",
   },
   { to: "/dpdp", label: "DPDP Consent Notice", testId: "footer-link-dpdp" },
 ];

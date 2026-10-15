@@ -2,76 +2,65 @@ import React from "react";
 import LegalPage from "@/components/LegalPage";
 import { COMPANY, formatFullAddress } from "@/config/company";
 
+const { freeHours, feePercent } = COMPANY.cancellation;
+
+// Section 4 is referenced from the Shipping & Delivery Policy; keep its number.
 const sections = [
   {
     title: "1. Overview",
-    body: `This Refund & Cancellation Policy governs cancellations of, and refunds for, personal-security bookings made through the RAKSHAK platform (the "Services"). "RAKSHAK", "we", "us" and "our" refer to the RAKSHAK brand, operated by the entity identified on our Contact page. By making a booking you agree to the terms below in addition to our Terms of Service.`,
+    body: `This Cancellation & Refund Policy applies to every security-service booking made through the RAKSHAK app or website (the "Services"). "RAKSHAK", "we", "us" and "our" refer to the RAKSHAK brand, operated by the entity named on our Contact page. It explains when you can cancel, what you get back, and how and when refunds reach you. It forms part of our Terms & Conditions.`,
   },
   {
-    title: "2. Cancellation by the customer",
+    title: "2. Cancelling a booking",
     body: [
-      "You may cancel a booking at any time from within the RAKSHAK app. The applicable charge depends on how close to the scheduled start time you cancel:",
-      "• Free cancellation — more than 2 hours before the scheduled start: full refund of the amount paid, no charge.",
-      "• Late cancellation — within 2 hours of the scheduled start (but before a guard has been assigned): 15% of the booking value is charged as an operations fee; the balance is refunded.",
-      "• Very late cancellation — within 2 hours of the scheduled start AND after a guard has been assigned: 25% of the booking value is charged as a guard-compensation fee; the balance is refunded.",
-      "• After service has started — no cancellation is possible once the guard has verified the start OTP. If the service is interrupted due to a fault attributable to RAKSHAK or the guard, please contact support so we can raise a service-deficiency claim (section 4).",
+      "You can cancel a booking in the RAKSHAK app, from the booking's details, at any time until the guard arrives and starts the shift. Before you confirm, the app shows exactly how much will be refunded.",
+      "• No guard assigned yet: free. You get a full refund.",
+      `• Guard assigned, and you cancel at least ${freeHours} hours before the start time: free. You get a full refund.`,
+      `• Guard assigned, and you cancel less than ${freeHours} hours before the start time: ${feePercent}% of the amount you paid is kept to compensate the guard who set time aside for you. The rest is refunded.`,
+      "• After the guard has arrived and the shift has started: the booking can no longer be cancelled. If something went wrong with the service, see section 4.",
+      "• Bookings you chose to pay in cash after the service: no charge applies, because nothing was paid in advance.",
     ],
   },
   {
-    title: "3. Cancellation by RAKSHAK",
+    title: "3. Cancellation by RAKSHAK or the guard",
     body: [
-      "In rare cases, RAKSHAK may need to cancel a booking — for example when no verified guard is available in your area, when the address falls outside our current service area, or in an event of force majeure (public unrest, weather emergency, government restriction).",
-      "Where RAKSHAK cancels a booking, the entire booking value is refunded automatically to the original payment source. No cancellation fee is charged in this case.",
+      "If no verified guard is available, if the address is outside our service area, or if we cannot deliver the service because of events outside our control (for example public unrest, severe weather or a government restriction), we cancel the booking and refund the full amount automatically. No fee is charged.",
+      "If the assigned guard cancels, we look for another guard at no extra cost to you. If we cannot find one, the booking is cancelled and the full amount is refunded.",
     ],
   },
   {
-    title: "4. Service deficiency & partial refunds",
+    title: "4. Problems with the service and partial refunds",
     body: [
-      "If the guard fails to arrive within 30 minutes of the confirmed arrival time (guard no-show), you are entitled to a full refund and a service credit at our discretion. Contact support within 24 hours of the incident.",
-      "If the assigned guard leaves the shift before the booked end time without a valid reason, the unused portion of the shift is refunded on a pro-rata basis.",
-      "For any other genuine service-deficiency claim, please email the details to " +
-        COMPANY.supportEmail +
-        " within 48 hours. We investigate every claim and communicate the outcome — full refund, partial refund or credit — within 7 business days.",
+      `If the guard did not arrive, left before the booked end time, or the service was not delivered as booked, tell us within 48 hours from the RAKSHAK app or by email to ${COMPANY.supportEmail}, with your booking reference.`,
+      "We review every claim and reply within 7 working days. If the problem is confirmed, we refund the part of the service that was not delivered, or the full amount if no service was delivered.",
     ],
   },
   {
-    title: "5. Refund method & timelines",
+    title: "5. How and when refunds are paid",
     body: [
-      "All eligible refunds are processed to the ORIGINAL payment method used at the time of booking. RAKSHAK does not offer cash refunds against digital payments.",
-      "Typical timelines from the date the refund is initiated:",
-      "• UPI / RAKSHAK-wallet: instant to 24 hours.",
-      "• Debit / Credit cards: 5 – 7 business days depending on the issuing bank.",
-      "• Net-banking: 3 – 5 business days.",
-      "You will receive a confirmation notification once the refund is initiated. The Reference / ARN number is available in the app under Bookings → Refund status.",
+      "Refunds always go back to the original payment method (UPI, debit or credit card, or net banking) through our payment partners. We do not give cash refunds for online payments.",
+      "A refund is initiated as soon as the booking is cancelled, or when a service claim is approved. The money usually reaches your account within 5 to 7 working days, depending on your bank; UPI refunds are often faster.",
+      "You can see the refund amount and its status on the booking in the RAKSHAK app. If it has not reached you within 7 working days, contact us with your booking reference and we will follow it up with the bank.",
     ],
   },
   {
-    title: "6. How to request a refund",
+    title: "6. What is not refunded",
     body: [
-      "Most refunds are triggered automatically. Where a manual request is required (e.g. service-deficiency claim), please raise it via:",
-      "• In-app: Bookings → the booking in question → Report an issue → Request a refund.",
-      "• Email: " + COMPANY.supportEmail + " with subject line “Refund request — <booking reference>”.",
-      "Include your registered mobile number, the booking reference and a short description of the issue. Photos or screenshots help us resolve faster.",
+      "Completed services are not refunded, except under section 4.",
+      `The cancellation charge described in section 2 (${feePercent}% of the amount paid, only when a guard is assigned and you cancel less than ${freeHours} hours before the start).`,
+      "Coupon or promotional discounts are not paid out as money; only the amount you actually paid is refunded.",
     ],
   },
   {
-    title: "7. Non-refundable items",
-    body: [
-      "Referral bonuses, promotional credits, RAKSHAK-wallet top-ups and any amount already redeemed against a completed booking are non-refundable.",
-      "Convenience fees or gateway fees (if disclosed separately at checkout) may be non-refundable — this is stated on the fare screen before payment.",
-    ],
+    title: "7. Chargebacks",
+    body: "Please contact us before raising a chargeback with your bank; most refund questions are resolved within a few working days. Chargebacks raised without contacting us first may delay the resolution.",
   },
   {
-    title: "8. Chargebacks",
-    body: `Before initiating a chargeback with your bank, please raise a refund request with us — we resolve the vast majority of issues within a few business days. Unwarranted chargebacks may lead to suspension of your RAKSHAK account until the dispute is resolved.`,
-  },
-  {
-    title: "9. Contact for refund escalations",
+    title: "8. Contact",
     body: [
-      `Grievance Officer, ${COMPANY.brandName}`,
-      `Email: ${COMPANY.grievanceOfficer.email}`,
+      `Customer support: ${COMPANY.supportEmail} · ${COMPANY.supportPhone} (${COMPANY.supportHours})`,
+      `Grievance Officer: ${COMPANY.grievanceOfficer.email}`,
       `Address: ${formatFullAddress()}`,
-      `Business hours: ${COMPANY.supportHours}`,
     ],
   },
 ];
@@ -81,7 +70,7 @@ export default function Refund() {
     <LegalPage
       testId="refund-page"
       eyebrow="Legal"
-      title="Refund & Cancellation Policy"
+      title="Cancellation & Refund Policy"
       updated={COMPANY.policiesUpdated}
       sections={sections}
     />

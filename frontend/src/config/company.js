@@ -49,8 +49,15 @@ export const COMPANY = {
     linkedin: "",
   },
 
+  // Cancellation rules shown on the website. Keep these equal to
+  // Admin → Settings (cancellation_free_hours / cancellation_fee_percent).
+  cancellation: {
+    freeHours: 6,
+    feePercent: 25,
+  },
+
   // Effective date of the latest legal-page revision
-  policiesUpdated: "December 2025",
+  policiesUpdated: "October 2026",
 };
 
 export function formatFullAddress() {

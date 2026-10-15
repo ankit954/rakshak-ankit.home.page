@@ -81,11 +81,11 @@ const BENEFITS = [
   {
     icon: Gift,
     title: "Referral Rewards",
-    desc: "Refer guards or customers and earn — credited directly to your in-app wallet.",
+    desc: "Refer customers and earn a bonus, paid with your weekly payout.",
   },
   {
     icon: Wallet,
-    title: "Wallet + Earnings Tracking",
+    title: "Earnings Tracking",
     desc: "Live earnings, deductions and bank transfers — fully auditable, all in the app.",
   },
   {
